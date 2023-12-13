@@ -1,6 +1,7 @@
-# super-power-4
+# Super Power 4 Game
 
-état du jeu : </br>
+## Game State
+The game state is represented as follows:</br>
 [0 0 0 0 0 0 0 </br>
  0 0 0 0 1 0 0</br>
  0 0 1 2 2 0 0</br>
@@ -8,35 +9,29 @@
  0 2 1 1 2 1 0</br>
  0 1 2 1 1 2 1]</br>
 
+## Variables
+- `undoredo`: List of game states
+- `gamegrid`: 2D array representing the game grid
+- `gamestate`: Current game state (grid, perk1, perk2, playerturn)
+- `perk1`, `perk2`: Booleans indicating if each player has used their perk
+- `activegamestate`: Current game state type
+- `colorplayer1`, `colorplayer2`: Player colors
+- `requiredcoins`: Integer greater than 1 and less than max(width, height)
+- `width`: Integer greater than 3
+- `height`: Integer greater than 3
+- `aidepth`: Positive integer
+- `playerplayfirst`: Boolean (true if the human player goes first)
+- `playerturn`: Boolean (true if it's the human player's turn)
 
-undoredo = [gamestate]</br>
-gamegrid = [largeur][hauteur]</br>
-gamestate = [grid,perk1,perk2,playerturn]</br>
-perk1,perk2 = (bool,bool) (si déjà utilisé ou non par chaque joueur)</br>
-activegamestate = type gamestate</br>
-colorplayer1 = parmis (r , j, g…)</br>
-colorplayer2 = … </br>
-requiredcoins = entier strictement supérieur à 1 inférieur à max(largeur,hauteur)</br>
-largeur = entier strictement supérieur à 3</br>
-hauteur = entier strictement supérieur à 3</br>
-aidepth = entier positif</br>
-playerplayfirst = bool (true si l’humain commence)</br>
-playerturn = bool (true si c’est au joueur humain de jouer)</br>
-
-
-
-Fonctions : </br>
-ajouterjeton(joueur, activegamestate,colonne,playerturn) : ajoute un jeton dans grid	</br>
-checkvictory(activegamestate) : vérifie si il y a un gagnant à ce stade du jeu (vérifier match nul)</br>
-	checkcolumn(activegamestate)</br>
-	checkrow(activegamestate)</br>
-	checkdiagup(activegamestate)</br>
-	checkdiagdown(activegamestate)</br>
-checkfullgrid(activegamestate) vérifie si la grille est pleine</br>
-actionperk1(activegamestate) </br>
-actionperk2(activegamestate)</br>
-undo(undoredo,activegamestate) : fait un retour dans la liste gamestate</br>
-redo(undoredo,activegamestate) : avance dans la liste game state      </br>
-cleargame(activegamestate,perk1,perk2,undoredo) : remet tout à 0</br>
+## Functions
+- `addjeton(player, activegamestate, column, playerturn)`: Adds a token to the grid
+- `checkvictory(activegamestate)`: Checks if there's a winner at this stage of the game (also checks for a draw)
+  - `checkcolumn(activegamestate)`
+  - `checkrow(activegamestate)`
+  - `checkdiagup(activegamestate)`
+  - `checkdiagdown(activegamestate)`
+- `checkfullgrid(activegamestate)`: Checks if the grid is full
+- `actionperk1(activegamestate)` Do perks 1 action
+- `actionperk2(activegamestate)` Do perks 2 action
 
 
