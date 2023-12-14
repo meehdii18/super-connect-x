@@ -1,4 +1,4 @@
-# Super Power 4 Game
+# Super Connect 4 Game
 
 ## Game State
 The game state is represented as follows:</br>
