@@ -1,4 +1,3 @@
-checkRow algorithm
 Fonction checkRow(entier : requiredcoins, entier : boardWidth, entier : boardHeight, tableau[boardWidth, boardHeight] grid) : entier
 
 Variables :
