@@ -36,4 +36,4 @@
   	renvoyer full
 
 #### Fin
-- Algorithme de [`checkValidPlay`](./algorithms/checkValidPlay.md)
+- Algorithme de [`checkValidPlay`](./checkValidPlay.md)
