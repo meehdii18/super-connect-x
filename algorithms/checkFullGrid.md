@@ -12,7 +12,7 @@
 - `boardWidth` > 0
 
 ### Sortie :
-
+- Booléen : `full`
 
 ### Post-conditions :
 - Vrai si la grille est complète et que les atout ont tous été utilisés
@@ -36,3 +36,4 @@
   	renvoyer full
 
 #### Fin
+- Algorithme de [`checkValidPlay`](./algorithms/checkValidPlay.md)
