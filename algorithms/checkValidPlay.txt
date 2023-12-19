@@ -1,17 +1,18 @@
-Fonction checkValidPlay(entier : boardWidth, entier : boardHeight, tableau[boardWidth, boardHeight] grid, entier : playColumn) : booléen
+Fonction checkValidPlay(entier : boardWidth, entier : boardHeight, entier : playColumn, tableau[boardWidth, boardHeight] grid) : booléen
 Pré-conditions : 
 	boardWidth > 0
 	boardHeight > 0
-	playColumn <= boardHeight
+	playColumn <= boardWidth
 Post-conditions :
-	valid = True si le coup est valide
-	valid = False si le coup n'est pas valide
+	valide = True si le coup est valide
+	valide = False si le coup n'est pas valide
 Variables :
-	booléen : valid
+	booléen : valide
 Début :
-	if(grid[boardHeight,playColumn] == 1 ou grid[boardHeight,playColumn] == 2)
-		valid = False
-	else 
-		valid = True
-	return valid
+	Si (grid[boardHeight,playColumn] = 0) alors :
+		valide <- Vrai
+	Sinon
+		valide <- Faux
+	FinSi
+	renvoyer valide
 Fin
