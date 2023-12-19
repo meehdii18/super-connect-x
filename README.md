@@ -30,9 +30,9 @@ The game state is represented as follows:</br>
     - [`checkRow(activegamestate)`](./algorithms/checkRow.txt)
     - [`checkDiagUp(activegamestate)`](./algorithms/checkUpDiag.txt)
     - [`checkDiagDown(activegamestate)`](./algorithms/checkDownDiag.txt)
-- [`checkfullgrid(activegamestate)`](./algorithms/checkFullGrid.txt): Checks if the grid is full
-- [`actionperk1(activegamestate)`](./algorithms/actionperk1.txt) Do perks 1 action
-- [`actionperk2(activegamestate)`](./algorithms/actionperk2.txt) Do perks 2 action
+- [`checkfullgrid(activegamestate)`](./algorithms/checkFullGrid.txt): Checks if the grid is full and all the perks have been used
+- [`actionperk1(activegamestate)`](./algorithms/actionperk1.txt): Do perk 1 action
+- [`actionperk2(activegamestate)`](./algorithms/actionperk2.txt): Do perk 2 action
 
   
 
