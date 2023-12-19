@@ -11,11 +11,11 @@ Variables :
 entier row, col, count, winner;
 Début :
 	row <- 0
-	TantQue ((row <= boardHeight)ET(count< requiredCoins)):
+	TantQue ((row <= boardHeight)ET(count< requiredCoins)) faire :
 		current <- grid[row,0]
 		col <- 0
 		count <- 0
-		TantQue ((col <= boardWidth)ET(count < requiredCoins)ET(boardWidth-col >= requiredCoins-count):
+		TantQue ((col <= boardWidth)ET(count < requiredCoins)ET(boardWidth-col >= requiredCoins-count) faire :
 			Si (current = grid[row,col]) alors :
 				count <- count + 1
 			Sinon:
