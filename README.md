@@ -26,7 +26,7 @@ The game state is represented as follows:</br>
 ## Functions
 - `addCoin(player, activegamestate, column, playerturn)`: Adds a token to the grid
 - `checkVictory(activegamestate)`: Checks if there's a winner at this stage of the game (also checks for a draw)
-  - `[checkCol](algorithms/checkCol.txt)(activegamestate)`
+  - `checkCol(activegamestate)`
   - `checkRow(activegamestate)`
   - `checkDiagUp(activegamestate)`
   - `checkDiagDown(activegamestate)`
