@@ -9,6 +9,13 @@ The game state is represented as follows:</br>
  0 2 1 1 2 1 0</br>
  0 1 2 1 1 2 1]</br>
 
+ $$\begin{equation*}
+\mathbf{}\left[\begin{matrix}
+2 & -5 & 4\\ 1 & -2.5 & 1\\ 1 & -4 & 6
+\end{matrix}\right] 
+\end{equation*}
+$$
+
 ## Variables
 - `undoredo`: List of game states
 - `gamegrid`: 2D array representing the game grid
