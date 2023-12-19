@@ -1,5 +1,9 @@
 Fonction checkRow(entier : requiredcoins, entier : boardWidth, entier : boardHeight, tableau[boardWidth, boardHeight] grid) : entier
-
+Pré-conditions : 
+	required coins > 0
+	boardWidth > 0
+	boardHeight > 0
+Post-conditions :
 Variables :
 entier row, col, count, winner;
 
