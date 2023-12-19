@@ -24,7 +24,7 @@ Début :
 				count <- 1
 			FinSi
 			current <- grid[row,col]
-            row <- row + 1
+            		row <- row + 1
 			col <- col + 1
 		FinTantQue
         Si (rowStart = 0) alors :
