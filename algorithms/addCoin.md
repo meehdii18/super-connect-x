@@ -1,49 +1,27 @@
-## Function: addCoin
+## Fonction addCoin
+Fonction addCoin(entier : boardWidth, entier : boardHeight, entier: playCol,entier : player, tableau[boardWidth, boardHeight] grid) : tableau[boardWidth, BoardHeight]
 
-### Parameters:
-- `boardWidth`: Integer (greater than 0)
-- `boardHeight`: Integer (greater than 0)
-- `playColumn`: Integer
-- `player`: Integer (1 if it's the human player, 2 if it's the computer)
-- `grid`: 2D array of size [boardWidth, boardHeight]
+### Entrées:
+- `boardWidth`: Entier
+- `boardHeight`: Entier
+- `playCol`: Entier
+- `player`: Entier
+- `grid`: Tableau [boardWidth, boardHeight]
 
-### Pre-conditions:
-- `boardHeight` > 0
+### Pré-conditions:
 - `boardWidth` > 0
-- `player` = 1 if it's the human player
-- `player` = 2 if it's the computer
-
-`playColumn` is valid and has been verified with `checkValidPlay` beforehand.
+- `boardHeight` > 0
+- `playCol` < `boardHeight` et est valide selon `checkValidPlay`
+- `player` = 1 si c'est au tour du joueur
+- `player` = 2 si c'est au tour de l'ordinateur
 
 ### Post-conditions:
-- `grid`: Modified with the player's move
+- `grid` modifiée avec le coup du joueur.
 
 ### Variables:
-- `actualCoin`: Integer
-- `row`: Integer
+- Entier : `actualCoin`,`row`
 
-### Pseudocode:
-1. Initialize `row` to 0
-2. Set `actualCoin` to `grid[row,playColumn]`
-3. While `actualCoin` is not 0 and `row` is less than or equal to `boardHeight`:
-   - Set `actualCoin` to `grid[row,playColumn]`
-   - If `actualCoin` is not 0, increment `row`
-4. Set `grid[row,playColumn]` to `player`
-5. Return `grid`
-
-
-Fonction addCoin(entier : boardWidth, entier : boardHeight, entier: playColumn,entier : player, tableau[boardWidth, boardHeight] grid) : tableau[boardWidth, BoardHeight]
-Pré-conditions : 
-	boardHeight > 0
-	boeardWidht > 0
-	player = 1 si c'est l'humain
-	player = 2 si c'est l'ordinateur
-Post-conditions :
-	grid : modifiée avec le coup du joueur effectué
-	playColumn valide vérifiée avec checkValidPlay auparavant
-Variables :
-	entier : actualCoin, row
-Début :
+#### Début
 	row <- 0
 	actualCoin <- grid[row,playColumn]
 	TantQue ((actualCoin !=0)ET(row <= boardHeight)) faire :
@@ -54,4 +32,5 @@ Début :
 	FinTantQue
 	grid[row,playColumn] <- player
 	renvoyer grid
-Fin
+
+#### Fin
