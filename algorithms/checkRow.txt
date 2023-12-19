@@ -15,7 +15,7 @@ Début :
 		current <- grid[row,0]
 		col <- 0
 		count <- 1
-		TantQue ((col <= boardWidth)ET(count < requiredCoins)ET(boardWidth-col+count >= requiredCoins):
+		TantQue ((col <= boardWidth)ET(count < requiredCoins)ET(boardWidth-col >= requiredCoins-count):
 			Si (current == grid[row,col]) alors :
 				count <- count + 1
 			Sinon:
