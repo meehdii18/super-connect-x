@@ -1,3 +1,31 @@
+## Function: checkRow
+
+### Parameters:
+- `requiredCoins`: Integer (greater than 0)
+- `boardWidth`: Integer (greater than 0)
+- `boardHeight`: Integer (greater than 0)
+- `grid`: 2D array of size [boardWidth, boardHeight]
+
+### Pre-conditions:
+- `requiredCoins` > 0
+- `boardWidth` > 0
+- `boardHeight` > 0
+
+### Post-conditions:
+- `winner` = 0 if no winning combination
+- `winner` = 1 if the player wins
+- `winner` = 2 if the computer wins
+
+### Variables:
+- `row`, `col`, `count`, `winner`: Integer
+
+### Pseudocode:
+1. Initialize `row` to 0
+2. While `row` is less than or equal to `boardHeight` and `count` is less than `requiredCoins`:
+   - Set `current` to `grid[row,0]`
+   - Initialize `col` to 0 and `count` to 0
+
+
 Fonction checkRow(entier : requiredCoins, entier : boardWidth, entier : boardHeight, tableau[boardWidth, boardHeight] grid) : entier
 Pré-conditions : 
 	requiredCoins > 0
