@@ -4,9 +4,11 @@ Pré-conditions :
 	boardWidth > 0
 	boardHeight > 0
 Post-conditions :
+	winner = 0 si pas de combinaison gagnante
+	winner = 1 si le joueur gagne
+	winner = 2 si l'ordinateur gagne
 Variables :
 entier row, col, count, winner;
-
 Début :
 	row <- 0
 	TantQue ((row <= boardHeight)ET(count< requiredcoins)):
