@@ -1,14 +1,19 @@
-Fonction placeCoin(entier : requiredcoins, entier : boardWidth, entier : boardHeight, tableau[boardWidth, boardHeight] grid) : entier
+Fonction placeCoin(entier : boardWidth, entier : boardHeight, tableau[boardWidth, boardHeight] grid, entier: playColumn,entier : player) : booléen
 Pré-conditions : 
+	boardHeight > 0
+	boeardWidht > 0
+	player = 1 si c'est l'humain
+	player = 2 si c'est l'IA
 Post-conditions :
+	grid : modifiée avec le coup du joueur effectué
+	playColumn valide vérifiée avec checkValidPlay auparavant
 Variables :
-
-
+	entier : actualCoin
 Début :
-
+	row = 0
+	while (actualCoin !=0)
+		actualCoin = grid[row,playColumn]
+		row += 1
+	grid[row-1,playColumn] = player // row-1 car on s'arrête au dessus de la case où on peut jouer
+	return grid
 Fin
-	
-					
-				
-				
-			 
