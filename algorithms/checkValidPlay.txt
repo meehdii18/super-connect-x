@@ -1,0 +1,14 @@
+Fonction checkValidPlay(entier : boardWidth, entier : boardHeight, tableau[boardWidth, boardHeight] grid) : entier
+Pré-conditions : 
+Post-conditions :
+Variables :
+
+
+Début :
+
+Fin
+	
+					
+				
+				
+			 
