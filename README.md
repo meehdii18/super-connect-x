@@ -24,12 +24,12 @@ The game state is represented as follows:</br>
 - `playerturn`: Boolean (true if it's the human player's turn)
 
 ## Functions
-- `addjeton(player, activegamestate, column, playerturn)`: Adds a token to the grid
-- `checkvictory(activegamestate)`: Checks if there's a winner at this stage of the game (also checks for a draw)
-  - `checkcolumn(activegamestate)`
-  - `checkrow(activegamestate)`
-  - `checkdiagup(activegamestate)`
-  - `checkdiagdown(activegamestate)`
+- `addCoin(player, activegamestate, column, playerturn)`: Adds a token to the grid
+- `checkVictory(activegamestate)`: Checks if there's a winner at this stage of the game (also checks for a draw)
+  - `checkCol(activegamestate)`
+  - `checkRow(activegamestate)`
+  - `checkDiagUp(activegamestate)`
+  - `checkDiagDown(activegamestate)`
 - `checkfullgrid(activegamestate)`: Checks if the grid is full
 - `actionperk1(activegamestate)` Do perks 1 action
 - `actionperk2(activegamestate)` Do perks 2 action
