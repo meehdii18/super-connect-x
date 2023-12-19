@@ -24,15 +24,15 @@ The game state is represented as follows:</br>
 - `playerturn`: Boolean (true if it's the human player's turn)
 
 ## Functions
-- `addCoin(player, activegamestate, column, playerturn)`: Adds a token to the grid
-- `checkVictory(activegamestate)`: Checks if there's a winner at this stage of the game (also checks for a draw)
-  - `checkCol(activegamestate)`
-  - `checkRow(activegamestate)`
-  - `checkDiagUp(activegamestate)`
-  - `checkDiagDown(activegamestate)`
-- `checkfullgrid(activegamestate)`: Checks if the grid is full
-- `actionperk1(activegamestate)` Do perks 1 action
-- `actionperk2(activegamestate)` Do perks 2 action
+- [`addCoin(player, activegamestate, column, playerturn)`](./algorithms/addCoin.txt): Adds a token to the grid
+- [`checkVictory(activegamestate)`](./algorithms/checkVictory.txt): Checks if there's a winner at this stage of the game (also checks for a draw)
+    - [`checkCol(activegamestate)`](./algorithms/checkCol.txt)
+    - [`checkRow(activegamestate)`](./algorithms/checkRow.txt)
+    - [`checkDiagUp(activegamestate)`](./algorithms/checkUpDiag.txt)
+    - [`checkDiagDown(activegamestate)`](./algorithms/checkDownDiag.txt)
+- [`checkfullgrid(activegamestate)`](./algorithms/checkFullGrid.txt): Checks if the grid is full
+- [`actionperk1(activegamestate)`](./algorithms/actionperk1.txt) Do perks 1 action
+- [`actionperk2(activegamestate)`](./algorithms/actionperk2.txt) Do perks 2 action
 
   
 
