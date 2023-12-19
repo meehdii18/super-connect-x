@@ -11,7 +11,7 @@ Variables :
 entier rowStart, colStart, row, col, count, winner;
 Début :
 	rowStart <- requiredCoins - 1
-  colStart <- 0
+  	colStart <- 0
 	TantQue ((colStart < boardWidth - requiredCoins + 1)ET(count < requiredCoins)):
         row <- rowStart
         col <- colStart
@@ -24,7 +24,7 @@ Début :
 				count <- 1
 			FinSi
 			current <- grid[row,col]
-      row <- row - 1
+      			row <- row - 1
 			col <- col + 1
 		FinTantQue
         Si (rowStart = boardHeight) alors :
