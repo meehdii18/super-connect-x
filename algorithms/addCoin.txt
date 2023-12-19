@@ -1,4 +1,4 @@
-Fonction placeCoin(entier : boardWidth, entier : boardHeight, tableau[boardWidth, boardHeight] grid, entier: playColumn,entier : player) : booléen
+Fonction addCoin(entier : boardWidth, entier : boardHeight, tableau[boardWidth, boardHeight] grid, entier: playColumn,entier : player) : booléen
 Pré-conditions : 
 	boardHeight > 0
 	boeardWidht > 0
