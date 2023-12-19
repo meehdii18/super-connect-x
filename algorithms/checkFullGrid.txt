@@ -1,0 +1,21 @@
+Fonction checkFullGrid(entier : boardWidth, entier : boardHeight, tableau[boardWidth, boardHeight] grid, booléen: perk1, booléen: perk2) : booléen
+Pré-conditions : 
+	boardHeight > 0
+	boeardWidht > 0
+Post-conditions :
+	True si la grille est complète et que les atout ont étés utilisé
+  False si la grille est complète et que les atouts n'ont pas tous été utilisés ou que la grille est incomplète avec les atouts utilisés / inutilisés
+Variables :
+	entier : column,actualCoin
+  bolléen full
+Début :
+	column = 0
+  full = False
+  actualCoin = grid[boardHeight,column]
+  if (perk1 && perk2)
+    full = True
+    for column in range(0,boardWidth):
+      if(!checkValidPlay(boardWidth,boardHeight,grid,column))
+        full = False
+  return full
+Fin
