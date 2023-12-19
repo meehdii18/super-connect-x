@@ -1,24 +1,26 @@
 ## Fonction addCoin
-Fonction addCoin(entier : boardWidth, entier : boardHeight, entier: playCol,entier : player, tableau[boardWidth, boardHeight] grid) : tableau[boardWidth, BoardHeight]
 
-### Entrées:
-- `boardWidth`: Entier
-- `boardHeight`: Entier
-- `playCol`: Entier
-- `player`: Entier
-- `grid`: Tableau [boardWidth, boardHeight]
+### Entrées :
+- Entier : `boardWidth`,
+- Entier : `boardHeight`,
+- Entier : `playCol`,
+- Entier : `player`,
+- Tableau [`boardWidth`, `boardHeight`] : `grid`
 
-### Pré-conditions:
-- `boardWidth` > 0
-- `boardHeight` > 0
-- `playCol` < `boardHeight` et est valide selon `checkValidPlay`
-- `player` = 1 si c'est au tour du joueur
-- `player` = 2 si c'est au tour de l'ordinateur
+### Pré-conditions :
+- `boardWidth` > 0,
+- `boardHeight` > 0,
+- `playCol` < `boardHeight` et est valide selon `checkValidPlay`,
+- `player` = 1 si c'est au tour du joueur,
+- `player` = 2 si c'est au tour de l'ordinateur.
 
-### Post-conditions:
+### Sortie :
+- Tableau [boardWidth, boardHeight] : `grid` 
+
+### Post-conditions :
 - `grid` modifiée avec le coup du joueur.
 
-### Variables:
+### Variables :
 - Entier : `actualCoin`,`row`
 
 #### Début

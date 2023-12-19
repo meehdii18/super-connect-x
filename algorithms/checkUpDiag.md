@@ -1,44 +1,28 @@
-## Function: checkUpDiag
+## Fonction checkUpDiag
 
-### Parameters:
-- `requiredCoins`: Integer (greater than 0)
-- `boardWidth`: Integer (greater than 0)
-- `boardHeight`: Integer (greater than 0)
-- `grid`: 2D array of size [boardWidth, boardHeight]
+### Entrées :
+- Entier : `requiredCoins`,
+- Entier : `boardWidth`,
+- Entier : `boardHeight`,
+- Tableau[`boardWidth`, `boardHeight`] : `grid`
 
-### Pre-conditions:
-- `requiredCoins` > 0
+### Pré-conditions :
 - `boardWidth` > 0
 - `boardHeight` > 0
+- `requiredCoins` > 0
 
-### Post-conditions:
-- `winner` = 0 if no winning combination
-- `winner` = 1 if the player wins
-- `winner` = 2 if the computer wins
+### Sortie :
+- Entier : `winner`
 
-### Variables:
-- `rowStart`, `colStart`, `row`, `col`, `count`, `winner`: Integer
+### Post-conditions :
+- `winner` = 0 si il n'y a pas de combinaison gagnante
+- `winner` = 1 si le joueur gagne
+- `winner` = 2 si l'ordinateur gagne
 
-### Pseudocode:
-1. Set `rowStart` to `boardHeight - requiredCoins + 1` and `colStart` to 0
-2. While `colStart` is less than `boardWidth - requiredCoins + 1` and `count` is less than `requiredCoins`:
-   - Set `row` to `rowStart` and `col` to `colStart`
-   - Set `current` to `grid[row,col]` and `count` to 0
-   - While `col` is less than or equal to `boardWidth` and `row` is less than or equal to `boardHeight` and `count` is less than `requiredCoins` and `min(boardW
+### Variables :
+- Entier : `rowStart`, `colStart`, `row`, `col`, `count`, `winner`
 
-
-Fonction checkUpDiag(entier : requiredCoins, entier : boardWidth, entier : boardHeight, tableau[boardWidth, boardHeight] grid) : entier
-Pré-conditions : 
-	requiredCoins > 0
-	boardWidth > 0
-	boardHeight > 0
-Post-conditions :
-	winner = 0 si pas de combinaison gagnante
-	winner = 1 si le joueur gagne
-	winner = 2 si l'ordinateur gagne
-Variables :
-entier rowStart, colStart, row, col, count, winner;
-Début :
+#### Début
 	rowStart <- boardHeight - requiredCoins + 1
     	colStart <- 0
 	TantQue ((colStart < boardWidth - requiredCoins + 1)ET(count < requiredCoins)) faire :
@@ -46,7 +30,7 @@ Début :
         col <- colStart
 		current <- grid[row,col]
 		count <- 0
-		TantQue ((col <= boardWidth)ET(row <= boardHeight)ET(count < requiredCoins)ET(min(boardWidth-col,boardHeight-row) >= requiredCoins-count) faire :
+		TantQue ((col <= boardWidth)ET(row <= boardHeight)ET(count < requiredCoins)ET(min(boardWidth-col,boardHeight-row) >= requiredCoins-count)) faire :
 			Si (current = grid[row,col]) alors :
 				count <- count + 1
 			Sinon:
@@ -68,7 +52,8 @@ Début :
 		winner <- 0
 	FinSi
 	renvoyer winner
-Fin
+
+#### Fin
 	
 					
 				

@@ -1,44 +1,33 @@
-## Function: checkValidPlay
+## Fonction checkValidPlay
 
-### Parameters:
-- `boardWidth`: Integer (greater than 0)
-- `boardHeight`: Integer (greater than 0)
-- `playColumn`: Integer
-- `grid`: 2D array of size [boardWidth, boardHeight]
+### Entrées :
+- Entier : `boardWidth`,
+- Entier : `boardHeight`,
+- Entier : `playColumn`,
+- Tableau[`boardWidth`, `boardHeight`] : `grid`
 
-### Pre-conditions:
+### Pré-conditions :
 - `boardWidth` > 0
 - `boardHeight` > 0
 - `playColumn` <= `boardWidth`
 
+### Sortie :
+- Booléen : `valide`
+
 ### Post-conditions:
-- Returns `True` if the move is valid
-- Returns `False` if the move is not valid
+- Vrai si le mouvement est valide
+- Faux sinon
 
 ### Variables:
-- `valid`: Boolean
+- Booléen : `valide`
 
-### Pseudocode:
-1. If `grid[boardHeight,playColumn]` equals 0, set `valid` to `True`
-   - Otherwise, set `valid` to `False`
-2. Return `valid`
+#### Début
 
-
-Fonction checkValidPlay(entier : boardWidth, entier : boardHeight, entier : playColumn, tableau[boardWidth, boardHeight] grid) : booléen
-Pré-conditions : 
-	boardWidth > 0
-	boardHeight > 0
-	playColumn <= boardWidth
-Post-conditions :
-	valide = True si le coup est valide
-	valide = False si le coup n'est pas valide
-Variables :
-	booléen : valide
-Début :
 	Si (grid[boardHeight,playColumn] = 0) alors :
 		valide <- Vrai
 	Sinon
 		valide <- Faux
 	FinSi
 	renvoyer valide
-Fin
+
+#### Fin
