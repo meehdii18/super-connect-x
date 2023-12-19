@@ -1,6 +1,6 @@
-Fonction checkCol(entier : requiredcoins, entier : boardWidth, entier : boardHeight, tableau[boardWidth, boardHeight] grid) : entier
+Fonction checkCol(entier : requiredCoins, entier : boardWidth, entier : boardHeight, tableau[boardWidth, boardHeight] grid) : entier
 Pré-conditions : 
-	required coins > 0
+	requiredCoins > 0
 	boardWidth > 0
 	boardHeight > 0
 Post-conditions :
@@ -11,11 +11,11 @@ Variables :
 entier row, col, count, winner;
 Début :
 	col <- 0
-	TantQue ((col <= boardWidth)ET(count< requiredcoins)):
+	TantQue ((col <= boardWidth)ET(count< requiredCoins)):
 		current <- grid[0,col]
 		row <- 0
 		count <- 1
-		TantQue ((row <= boardHeight)ET(count < requiredcoins)ET(boardHeight-row+count >= requiredcoins)ET(grid[row,col]!=0)):
+		TantQue ((row <= boardHeight)ET(count < requiredCoins)ET(boardHeight-row+count >= requiredCoins)ET(grid[row,col]!=0)):
 			Si (current == grid[row,col]) alors :
 				count <- count + 1
 			Sinon:
@@ -26,7 +26,7 @@ Début :
 		FinTantQue
 		col <- col + 1
 	FinTantQue
-	Si (count == requiredcoins) alors :
+	Si (count == requiredCoins) alors :
 		winner <- current
 	Sinon
 		winner <- 0
