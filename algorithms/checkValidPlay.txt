@@ -7,6 +7,7 @@ Post-conditions :
 	valid = True si le coup est valide
 	valid = False si le coup n'est pas valide
 Variables :
+	booléen : valid
 Début :
 	if(grid[boardHeight,playColumn] == 1 ou grid[boardHeight,playColumn] == 2)
 		valid = False
