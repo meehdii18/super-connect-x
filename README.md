@@ -28,7 +28,7 @@ The game state is represented as follows:</br>
 - `playerturn`: Boolean (true if it's the human player's turn)
 
 ## Functions
-- [`addCoin(player, activegamestate, column, playerturn)`](./algorithms/addCoin.md): Adds a token to the grid
+- [`addCoin(player, activegamestate, column, playerturn)`](./algorithms/addCoin.md): Adds a coin to the grid
 - [`checkVictory(activegamestate)`](./algorithms/checkVictory.md): Checks if there's a winner at this stage of the game (also checks for a draw)
     - [`checkCol(activegamestate)`](./algorithms/checkCol.md)
     - [`checkRow(activegamestate)`](./algorithms/checkRow.md)
@@ -37,6 +37,9 @@ The game state is represented as follows:</br>
 - [`checkfullgrid(activegamestate)`](./algorithms/checkFullGrid.md): Checks if the grid is full and all the perks have been used
 - [`actionperk1(activegamestate)`](./algorithms/actionperk1.md): Do perk 1 action
 - [`actionperk2(activegamestate)`](./algorithms/actionperk2.md): Do perk 2 action
+- [`minmax(grid,depth,maximazingPlayerturn)`](./algorithms/minmax.md): MinMax algorithm
+- [`removeCoin(col,boardWidth,boardHeight,grid)`](./algorithms/removeCoin.md): Removes a coin from the grid
+- [`checkValidPlay(boardWidth,boardHeight,playColumn,grid)`](./algorithms/checkValidPlay.md): Checks if a moove is possible
 
   
 
