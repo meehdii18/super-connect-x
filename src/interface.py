@@ -42,7 +42,7 @@ def change_appearance_mode_event(new_appearance_mode):
 
 
 app = customtkinter.CTk()
-app.title("SUPER CONNECT 4")
+app.title("SUPER CONNECT X")
 app.geometry("1050x675")
 app.resizable(False, False)
 
@@ -75,7 +75,7 @@ navigation_frame = customtkinter.CTkFrame(app, corner_radius=0)
 navigation_frame.grid(row=0, column=0, sticky="nsew")
 navigation_frame.grid_rowconfigure(4, weight=1)
 
-navigation_frame_label = customtkinter.CTkLabel(navigation_frame, text="  SUPER CONNECT 4", image=logo_image,
+navigation_frame_label = customtkinter.CTkLabel(navigation_frame, text="  SUPER CONNECT X", image=logo_image,
                                                 compound="left", font=customtkinter.CTkFont(size=15, weight="bold"))
 navigation_frame_label.grid(row=0, column=0, padx=20, pady=20)
 
