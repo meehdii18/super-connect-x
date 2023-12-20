@@ -10,7 +10,8 @@
 - `depth` > 0
 
 ### Sortie :
-- Entier : `bestscore`
+- Entier : `best`
+- Entier : `bestCol`
 
 ### Post-conditions :
 - `bestscore` = 0 si il y a égalité
@@ -19,40 +20,51 @@
 
 ### Variables :
 
+- Entier : `temp`
+- Entier : `score`
 
 #### Début
 
-    // Maximizer win
     score = checkVictory(grid)
+
+    #Maximizer win
     Si (score == 1) Alors
         revnoyer score
 
-    // Minimizer win
+    #Minimizer win
     Si (score == -1) Alors
         renvoyer score
 
+    #Full grid
     Si (checkFullGrid(grid)) Alors
         renvoyer 0
 
     Si (maximazingPlayerTurn) Alors   
-        best = -1000
+        best <- -1000
+        bestCol <- -1
         Pour col allant de 0 à boardWidth - 1 faire
             Si (grid[boardHeight-1][col] == 0) Alors
                 addCoin(boardWidth, boardHeight, col, 2, grid)
-                best = max(best,minimax(grid, depth + 1, non isMaximizingPlayerTurn))))
+                temp = minimax(grid, depth + 1, non isMaximizingPlayerTurn)))
                 removeCoin(col, boardWidth, boardHeight, grid)
+                Si (temp>best) alors
+                    best <- temp
+                    best_col <- col
             FinSi
-        renvoyer best
+        renvoyer best, best_col
         Fin Pour
     Sinon
-        best = 1000
+        best <- 1000
         Pour col allant de 0 à boardWidth -1 faire
             Si grid[boardHeight-1][col] == 0 Alors
                 addCoin(boardWidth, boardHeight, col, 1, grid)
-                best = min(best,minimax(grid, depth + 1, non isMaximizingPlayerTurn))))     
+                temp = minimax(grid, depth + 1, non isMaximizingPlayerTurn)))     
                 removeCoin(col, boardWidth, boardHeight, grid)
+                Si temp<best alors
+                    best <- temp
+                    bestCol <- col
             FinSi
-        renvoyer best
+        renvoyer best, bestCol
         Fin Pour
     FinSi
 
