@@ -12,15 +12,15 @@ def select_frame_by_name(name):
 
     # show selected frame
     if name == "home":
-        home_frame.grid(row=0, column=1, sticky="nsew")
+        home_frame.grid(row=1, column=0, sticky="nsew")  # Change column to 0
     else:
         home_frame.grid_forget()
     if name == "frame_2":
-        second_frame.grid(row=0, column=1, sticky="nsew")
+        second_frame.grid(row=1, column=0, sticky="nsew")  # Change column to 0
     else:
         second_frame.grid_forget()
     if name == "frame_3":
-        third_frame.grid(row=0, column=1, sticky="nsew")
+        third_frame.grid(row=1, column=0, sticky="nsew")  # Change column to 0
     else:
         third_frame.grid_forget()
 
@@ -57,8 +57,9 @@ if(platform.system() == "Windows"):
 """
 
 # set grid layout 1x2
-app.grid_rowconfigure(0, weight=1)
-app.grid_columnconfigure(1, weight=1)
+
+app.grid_rowconfigure(1, weight=10)
+app.grid_columnconfigure(0, weight=1)
 
 # load images with light and dark mode image
 image_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "test_images")
@@ -73,17 +74,25 @@ add_user_image = customtkinter.CTkImage(Image.open(os.path.join(image_path, "end
 # create navigation frame
 navigation_frame = customtkinter.CTkFrame(app, corner_radius=0)
 navigation_frame.grid(row=0, column=0, sticky="nsew")
-navigation_frame.grid_rowconfigure(4, weight=1)
+navigation_frame.configure(height=70)
+nav_frame_height = navigation_frame.winfo_reqheight()
+app.rowconfigure(0, minsize=nav_frame_height)
+
+
 
 navigation_frame_label = customtkinter.CTkLabel(navigation_frame, text="  SUPER CONNECT X", image=logo_image,
                                                 compound="left", font=customtkinter.CTkFont(size=15, weight="bold"))
-navigation_frame_label.grid(row=0, column=0, padx=20, pady=20)
+navigation_frame_label.grid(row=0, column=0)
+navigation_frame_label.place(relx=0.1, rely=0.5, anchor="center")  # Adjust rely as needed
+
 
 home_button = customtkinter.CTkButton(navigation_frame, corner_radius=0, height=40, border_spacing=10, text="MAIN MENU",
                                       fg_color="transparent", text_color=("gray10", "gray90"),
                                       hover_color=("gray70", "gray30"),
                                       image=home_image, anchor="w", command=home_button_event)
-home_button.grid(row=1, column=0, sticky="ew")
+home_button.grid(row=0, column=1, sticky="ew")
+home_button.place(relx=0.35, rely=0.5, anchor="center")  # Adjust rely as needed
+
 
 
 frame_2_button = customtkinter.CTkButton(navigation_frame, corner_radius=0, height=40, border_spacing=10,
@@ -91,29 +100,35 @@ frame_2_button = customtkinter.CTkButton(navigation_frame, corner_radius=0, heig
                                          fg_color="transparent", text_color=("gray10", "gray90"),
                                          hover_color=("gray70", "gray30"),
                                          image=chat_image, anchor="w", command=frame_2_button_event)
-frame_2_button.grid(row=2, column=0, sticky="ew")
+frame_2_button.grid(row=0, column=2, sticky="ew")
+frame_2_button.place(relx=0.5, rely=0.5, anchor="center")  # Adjust rely as needed
 
 frame_3_button = customtkinter.CTkButton(navigation_frame, corner_radius=0, height=40, border_spacing=10,
                                          text="END MENU",
                                          fg_color="transparent", text_color=("gray10", "gray90"),
                                          hover_color=("gray70", "gray30"),
                                          image=add_user_image, anchor="w", command=frame_3_button_event)
-frame_3_button.grid(row=3, column=0, sticky="ew")
+frame_3_button.grid(row=0, column=3, sticky="ew")
+frame_3_button.place(relx=0.65, rely=0.5, anchor="center")  # Adjust rely as needed
+
 
 
 appearance_mode_menu = customtkinter.CTkOptionMenu(navigation_frame, values=["Dark", "Light", "System"],
                                                    command=change_appearance_mode_event)
-appearance_mode_menu.grid(row=6, column=0, padx=20, pady=20, sticky="s")
+appearance_mode_menu.grid(row=0, column=4, sticky="w")
+appearance_mode_menu.place(relx=0.85, rely=0.5, anchor="w")  # Adjust rely as needed
+
 
 # Main Menu
 home_frame = customtkinter.CTkFrame(app, corner_radius=0, fg_color="transparent")
-home_frame.grid_columnconfigure(0, weight=1)
+home_frame.grid(row=1, column=0, sticky="nsew")  # Change row to 0
+home_frame.grid_columnconfigure(0, weight=2)
 
 home_frame_large_image_label = customtkinter.CTkLabel(home_frame, text="", image=large_test_image)
-home_frame_large_image_label.grid(row=0, column=0, padx=20, pady=10)
+home_frame_large_image_label.grid(row=0, column=0,)
 
 home_frame_button_1 = customtkinter.CTkButton(home_frame, text="", image=image_icon_image)
-home_frame_button_1.grid(row=1, column=0, padx=20, pady=10)
+home_frame_button_1.grid(row=1, column=0)
 
 
 # Game Frame
