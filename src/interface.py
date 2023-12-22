@@ -1,13 +1,14 @@
 import os
 import tkinter as tk
+
 import customtkinter
 from PIL import Image
-
 
 app = customtkinter.CTk()
 app.title("SUPER CONNECT X")
 app.geometry("1050x675")
 app.resizable(False, False)
+
 
 def select_frame_by_name(name):
     # set button color for selected button
@@ -50,7 +51,6 @@ def change_appearance_mode_event(new_appearance_mode):
 customtkinter.set_appearance_mode("System")
 customtkinter.set_default_color_theme("dark-blue")  # Themes: "blue" (standard), "green", "dark-blue"
 
-
 # set grid layout 1x2
 
 app.grid_rowconfigure(1, weight=10)
@@ -58,12 +58,12 @@ app.grid_columnconfigure(0, weight=1)
 
 # load images with light and dark mode image
 image_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "test_images")
-logo_image = customtkinter.CTkImage(Image.open(os.path.join(image_path, "logo.png")),
-                                    size=(26, 26))
-large_test_image = customtkinter.CTkImage(Image.open(os.path.join(image_path, "large_test_image.png")), size=(500, 150))
+logo_image = customtkinter.CTkImage(Image.open(os.path.join(image_path, "logo.png")), size=(26, 26))
+banner_image = customtkinter.CTkImage(Image.open(os.path.join(image_path, "large_test_image.png")), size=(650, 195))
 home_image = customtkinter.CTkImage(Image.open(os.path.join(image_path, "home.png")), size=(20, 20))
 chat_image = customtkinter.CTkImage(Image.open(os.path.join(image_path, "game.png")), size=(20, 20))
 add_user_image = customtkinter.CTkImage(Image.open(os.path.join(image_path, "end.png")), size=(20, 20))
+start_image = customtkinter.CTkImage(Image.open(os.path.join(image_path, "start.png")), size=(90, 75))
 
 # create navigation frame
 navigation_frame = customtkinter.CTkFrame(app, corner_radius=0)
@@ -113,9 +113,9 @@ home_frame = customtkinter.CTkFrame(app, corner_radius=0, fg_color="transparent"
 home_frame.grid(row=1, column=0, sticky="nsew")
 home_frame.grid_columnconfigure(0, weight=2)
 
-home_frame_large_image_label = customtkinter.CTkLabel(home_frame, text="", image=large_test_image)
-home_frame_large_image_label.grid(row=0, column=0, )
-
+home_frame_large_image_label = customtkinter.CTkLabel(home_frame, text="", image=banner_image)
+home_frame_large_image_label.grid(row=0, column=0)
+home_frame_large_image_label.place(relx=0.2, rely=-0.025)
 
 var_column = tk.IntVar()
 var_row = tk.IntVar()
@@ -125,62 +125,55 @@ var_difficulty = tk.IntVar()
 home_frame_column_text = customtkinter.CTkLabel(home_frame, text="Nombre de colonnes : ", fg_color="transparent",
                                                 font=customtkinter.CTkFont(size=20, weight="bold"))
 home_frame_column_text.grid(row=1, column=0)
-home_frame_column_text.place(relx=0.32, rely=0.298)
-home_frame_column_slider = customtkinter.CTkSlider(home_frame, from_=3,to=10,number_of_steps=8,variable=var_column)
+home_frame_column_text.place(relx=0.32, rely=0.298 + 0.03)
+home_frame_column_slider = customtkinter.CTkSlider(home_frame, from_=3, to=10, number_of_steps=8, variable=var_column)
 home_frame_column_slider.grid(row=1, column=0)
-home_frame_column_slider.place(relx=0.55, rely=0.3)
+home_frame_column_slider.place(relx=0.55, rely=0.3 + 0.03)
 home_frame_column_slider.set(7)
 home_frame_column_val = customtkinter.CTkLabel(home_frame, textvariable=var_column, fg_color="transparent")
 home_frame_column_val.grid(row=1, column=0)
-home_frame_column_val.place(relx=0.6425, rely=0.25)
-
+home_frame_column_val.place(relx=0.6425, rely=0.25 + 0.03)
 
 home_frame_row_text = customtkinter.CTkLabel(home_frame, text="Nombre de lignes : ", fg_color="transparent",
                                              font=customtkinter.CTkFont(size=20, weight="bold"))
 home_frame_row_text.grid(row=1, column=0)
-home_frame_row_text.place(relx=0.35, rely=0.398)
-home_frame_row_slider = customtkinter.CTkSlider(home_frame,from_=3,to=10,number_of_steps=8,variable=var_row)
+home_frame_row_text.place(relx=0.35, rely=0.398 + 0.03)
+home_frame_row_slider = customtkinter.CTkSlider(home_frame, from_=3, to=10, number_of_steps=8, variable=var_row)
 home_frame_row_slider.grid(row=1, column=0)
-home_frame_row_slider.place(relx=0.55, rely=0.4)
+home_frame_row_slider.place(relx=0.55, rely=0.4 + 0.03)
 home_frame_row_slider.set(6)
 home_frame_row_val = customtkinter.CTkLabel(home_frame, textvariable=var_row, fg_color="transparent")
 home_frame_row_val.grid(row=1, column=0)
-home_frame_row_val.place(relx=0.6425, rely=0.35)
-
+home_frame_row_val.place(relx=0.6425, rely=0.35 + 0.03)
 
 home_frame_coins_text = customtkinter.CTkLabel(home_frame, text="Nombre de jetons pour gagner : ",
                                                fg_color="transparent",
                                                font=customtkinter.CTkFont(size=20, weight="bold"))
 home_frame_coins_text.grid(row=1, column=0)
-home_frame_coins_text.place(relx=0.235, rely=0.498)
-
+home_frame_coins_text.place(relx=0.235, rely=0.498 + 0.03)
 
 home_frame_coins_slider = customtkinter.CTkSlider(home_frame, from_=3, to=10,
                                                   number_of_steps=8, variable=var_requiredcoins)
 home_frame_coins_slider.grid(row=1, column=0)
-home_frame_coins_slider.place(relx=0.55, rely=0.5)
+home_frame_coins_slider.place(relx=0.55, rely=0.5 + 0.03)
 home_frame_coins_slider.set(4)
 home_frame_coins_val = customtkinter.CTkLabel(home_frame, textvariable=var_requiredcoins, fg_color="transparent")
 home_frame_coins_val.grid(row=1, column=0)
-home_frame_coins_val.place(relx=0.6425, rely=0.45)
-
-
-
+home_frame_coins_val.place(relx=0.6425, rely=0.45 + 0.03)
 
 home_frame_difficulty_text = customtkinter.CTkLabel(home_frame, text="Difficulté de l'IA :", fg_color="transparent",
                                                     font=customtkinter.CTkFont(size=20, weight="bold"))
 home_frame_difficulty_text.grid(row=1, column=0)
-home_frame_difficulty_text.place(relx=0.365, rely=0.59)
-
+home_frame_difficulty_text.place(relx=0.365, rely=0.59 + 0.03)
 
 home_frame_difficulty_slider = customtkinter.CTkSlider(home_frame, from_=1, to=6, number_of_steps=6,
-                                                        variable=var_difficulty)
+                                                       variable=var_difficulty)
 home_frame_difficulty_slider.grid(row=1, column=0)
-home_frame_difficulty_slider.place(relx=0.55, rely=0.6)
+home_frame_difficulty_slider.place(relx=0.55, rely=0.6 + 0.03)
 home_frame_difficulty_slider.set(3)
 home_frame_difficulty_val = customtkinter.CTkLabel(home_frame, textvariable=var_difficulty, fg_color="transparent")
 home_frame_difficulty_val.grid(row=1, column=0)
-home_frame_difficulty_val.place(relx=0.6425, rely=0.55)
+home_frame_difficulty_val.place(relx=0.6425, rely=0.55 + 0.03)
 
 # Define available colors
 available_colors = ["Red", "Blue", "Green", "Yellow", "Purple", "Orange"]
@@ -196,21 +189,26 @@ player2_color.set(available_colors[1])
 # Create OptionMenu for player color choices
 player1_color_menu = customtkinter.CTkOptionMenu(home_frame, values=available_colors, variable=player1_color)
 player1_color_menu.grid(row=1, column=0)
-player1_color_menu.place(relx=0.555, rely=0.68)  # Adjust position as needed
+player1_color_menu.place(relx=0.555, rely=0.68 + 0.03)  # Adjust position as needed
 
 player2_color_menu = customtkinter.CTkOptionMenu(home_frame, values=available_colors, variable=player2_color)
 player2_color_menu.grid(row=1, column=0)
-player2_color_menu.place(relx=0.555, rely=0.75)  # Adjust position as needed
+player2_color_menu.place(relx=0.555, rely=0.75 + 0.03)  # Adjust position as needed
 
 player1_color_menu_text = customtkinter.CTkLabel(home_frame, text="Couleur du joueur :", fg_color="transparent",
                                                  font=customtkinter.CTkFont(size=20, weight="bold"))
 player1_color_menu_text.grid(row=1, column=0)
-player1_color_menu_text.place(relx=0.35, rely=0.68)
+player1_color_menu_text.place(relx=0.35, rely=0.68 + 0.03)
 
 player2_color_menu_text = customtkinter.CTkLabel(home_frame, text="Couleur de l'ordinateur :", fg_color="transparent",
                                                  font=customtkinter.CTkFont(size=20, weight="bold"))
 player2_color_menu_text.grid(row=1, column=0)
-player2_color_menu_text.place(relx=0.305, rely=0.75)
+player2_color_menu_text.place(relx=0.305, rely=0.75 + 0.03)
+
+home_frame_start_button = customtkinter.CTkButton(home_frame,text="",image=start_image,fg_color="transparent",
+                                                  command=frame_2_button_event,hover=False)
+home_frame_start_button.grid(row=1,column=0)
+home_frame_start_button.place(relx=0.46,rely=0.86)
 
 # Game Frame
 second_frame = customtkinter.CTkFrame(app, corner_radius=0, fg_color="transparent")
