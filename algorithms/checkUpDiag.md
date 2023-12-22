@@ -24,7 +24,8 @@
 
 #### Début
 	rowStart <- boardHeight - requiredCoins + 1
-    	colStart <- 0
+    colStart <- 0
+    count <- 0
 	TantQue ((colStart < boardWidth - requiredCoins + 1)ET(count < requiredCoins)) faire :
         row <- rowStart
         col <- colStart
