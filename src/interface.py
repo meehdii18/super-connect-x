@@ -1,6 +1,9 @@
 import os
 import tkinter as tk
+
 import customtkinter
+import pyglet
+from CTkMessagebox import CTkMessagebox
 from PIL import Image
 
 app = customtkinter.CTk()
@@ -46,12 +49,31 @@ def change_appearance_mode_event(new_appearance_mode):
     customtkinter.set_appearance_mode(new_appearance_mode)
 
 
+def launch_confirmation():
+    launch = CTkMessagebox(title="Lancer une partie",
+                           message="Voulez-vous lancez la partie avec les paramètres séléctionnés ?",
+                           option_1="Non", option_2="Oui", sound=True, corner_radius=20)
+    if launch.get() == "Oui":
+        frame_2_button_event()
+
+
+def quit_confirmation():
+    end_game = CTkMessagebox(title="Quitter le jeu", message="Voulez-vous vraiment quitter le jeu ?", icon="warning",
+                             option_1="Oui", option_2="Non", sound=True)
+    if end_game.get() == "Oui":
+        app.destroy()
+
+
 # Base theme
 customtkinter.set_appearance_mode("Dark")
 customtkinter.set_default_color_theme("dark-blue")  # Themes: "blue" (standard), "green", "dark-blue"
 
-# set grid layout 1x2
+# Load font
+font_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'fonts', 'Montserrat-Bold.ttf')
+pyglet.font.add_file(font_path)
+custom_font = customtkinter.CTkFont(family="Montserrat", size=20)
 
+# set grid layout 1x2
 app.grid_rowconfigure(1, weight=10)
 app.grid_columnconfigure(0, weight=1)
 
@@ -72,14 +94,15 @@ nav_frame_height = navigation_frame.winfo_reqheight()
 app.rowconfigure(0, minsize=nav_frame_height)
 
 navigation_frame_label = customtkinter.CTkLabel(navigation_frame, text="  SUPER CONNECT X", image=logo_image,
-                                                compound="left", font=customtkinter.CTkFont(size=15, weight="bold"))
+                                                compound="left",
+                                                font=customtkinter.CTkFont(family="Montserrat", size=15, weight="bold"))
 navigation_frame_label.grid(row=0, column=0)
 navigation_frame_label.place(relx=0.1, rely=0.5, anchor="center")
 
 home_button = customtkinter.CTkButton(navigation_frame, corner_radius=0, height=40, border_spacing=10, text="MAIN MENU",
                                       fg_color="transparent", text_color=("gray10", "gray90"),
                                       hover_color=("gray70", "gray30"),
-                                      font=customtkinter.CTkFont(size=15, weight="bold"),
+                                      font=customtkinter.CTkFont(family="Montserrat", size=15, weight="bold"),
                                       image=home_image, anchor="w", command=home_button_event)
 home_button.grid(row=0, column=1, sticky="ew")
 home_button.place(relx=0.35, rely=0.5, anchor="center")
@@ -88,7 +111,7 @@ frame_2_button = customtkinter.CTkButton(navigation_frame, corner_radius=0, heig
                                          text="GAME FRAME",
                                          fg_color="transparent", text_color=("gray10", "gray90"),
                                          hover_color=("gray70", "gray30"),
-                                         font=customtkinter.CTkFont(size=15, weight="bold"),
+                                         font=customtkinter.CTkFont(family="Montserrat", size=15, weight="bold"),
                                          image=chat_image, anchor="w", command=frame_2_button_event)
 frame_2_button.grid(row=0, column=2, sticky="ew")
 frame_2_button.place(relx=0.5, rely=0.5, anchor="center")
@@ -97,12 +120,12 @@ frame_3_button = customtkinter.CTkButton(navigation_frame, corner_radius=0, heig
                                          text="END MENU",
                                          fg_color="transparent", text_color=("gray10", "gray90"),
                                          hover_color=("gray70", "gray30"),
-                                         font=customtkinter.CTkFont(size=15, weight="bold"),
+                                         font=customtkinter.CTkFont(family="Montserrat", size=15, weight="bold"),
                                          image=add_user_image, anchor="w", command=frame_3_button_event)
 frame_3_button.grid(row=0, column=3, sticky="ew")
 frame_3_button.place(relx=0.65, rely=0.5, anchor="center")
 
-appearance_mode_menu = customtkinter.CTkOptionMenu(navigation_frame, values=["Dark","Light","System"],
+appearance_mode_menu = customtkinter.CTkOptionMenu(navigation_frame, values=["Dark", "Light", "System"],
                                                    command=change_appearance_mode_event)
 appearance_mode_menu.grid(row=0, column=4, sticky="w")
 appearance_mode_menu.place(relx=0.85, rely=0.5, anchor="w")
@@ -122,7 +145,7 @@ var_requiredcoins = tk.IntVar()
 var_difficulty = tk.IntVar()
 
 home_frame_column_text = customtkinter.CTkLabel(home_frame, text="Nombre de colonnes : ", fg_color="transparent",
-                                                font=customtkinter.CTkFont(size=20, weight="bold"))
+                                                font=customtkinter.CTkFont(family="Montserrat", size=20))
 home_frame_column_text.grid(row=1, column=0)
 home_frame_column_text.place(relx=0.32, rely=0.298 + 0.03)
 home_frame_column_slider = customtkinter.CTkSlider(home_frame, from_=3, to=10, number_of_steps=8, variable=var_column)
@@ -134,7 +157,7 @@ home_frame_column_val.grid(row=1, column=0)
 home_frame_column_val.place(relx=0.6425, rely=0.25 + 0.03)
 
 home_frame_row_text = customtkinter.CTkLabel(home_frame, text="Nombre de lignes : ", fg_color="transparent",
-                                             font=customtkinter.CTkFont(size=20, weight="bold"))
+                                             font=customtkinter.CTkFont(family="Montserrat", size=20))
 home_frame_row_text.grid(row=1, column=0)
 home_frame_row_text.place(relx=0.35, rely=0.398 + 0.03)
 home_frame_row_slider = customtkinter.CTkSlider(home_frame, from_=3, to=10, number_of_steps=8, variable=var_row)
@@ -147,7 +170,7 @@ home_frame_row_val.place(relx=0.6425, rely=0.35 + 0.03)
 
 home_frame_coins_text = customtkinter.CTkLabel(home_frame, text="Nombre de jetons pour gagner : ",
                                                fg_color="transparent",
-                                               font=customtkinter.CTkFont(size=20, weight="bold"))
+                                               font=customtkinter.CTkFont(family="Montserrat", size=20))
 home_frame_coins_text.grid(row=1, column=0)
 home_frame_coins_text.place(relx=0.235, rely=0.498 + 0.03)
 
@@ -161,7 +184,7 @@ home_frame_coins_val.grid(row=1, column=0)
 home_frame_coins_val.place(relx=0.6425, rely=0.45 + 0.03)
 
 home_frame_difficulty_text = customtkinter.CTkLabel(home_frame, text="Difficulté de l'IA :", fg_color="transparent",
-                                                    font=customtkinter.CTkFont(size=20, weight="bold"))
+                                                    font=customtkinter.CTkFont(family="Montserrat", size=20))
 home_frame_difficulty_text.grid(row=1, column=0)
 home_frame_difficulty_text.place(relx=0.365, rely=0.59 + 0.03)
 
@@ -195,17 +218,17 @@ player2_color_menu.grid(row=1, column=0)
 player2_color_menu.place(relx=0.555, rely=0.75 + 0.03)  # Adjust position as needed
 
 player1_color_menu_text = customtkinter.CTkLabel(home_frame, text="Couleur du joueur :", fg_color="transparent",
-                                                 font=customtkinter.CTkFont(size=20, weight="bold"))
+                                                 font=customtkinter.CTkFont(family="Montserrat", size=20))
 player1_color_menu_text.grid(row=1, column=0)
 player1_color_menu_text.place(relx=0.35, rely=0.68 + 0.03)
 
 player2_color_menu_text = customtkinter.CTkLabel(home_frame, text="Couleur de l'ordinateur :", fg_color="transparent",
-                                                 font=customtkinter.CTkFont(size=20, weight="bold"))
+                                                 font=customtkinter.CTkFont(family="Montserrat", size=20))
 player2_color_menu_text.grid(row=1, column=0)
 player2_color_menu_text.place(relx=0.305, rely=0.75 + 0.03)
 
 home_frame_start_button = customtkinter.CTkButton(home_frame, text="", image=start_image, fg_color="transparent",
-                                                  command=frame_2_button_event, hover=False)
+                                                  command=launch_confirmation, hover=False)
 home_frame_start_button.grid(row=1, column=0)
 home_frame_start_button.place(relx=0.46, rely=0.86)
 
@@ -216,19 +239,19 @@ second_frame = customtkinter.CTkFrame(app, corner_radius=0, fg_color="transparen
 third_frame = customtkinter.CTkFrame(app, corner_radius=0, fg_color="transparent")
 
 gamer_over_image = customtkinter.CTkImage(Image.open(os.path.join(image_path, "game_over.png")), size=(600, 360))
-game_over_label = customtkinter.CTkLabel(third_frame,text="",image=gamer_over_image,fg_color="transparent")
-game_over_label.place(relx=0.25,rely=0.1)
+game_over_label = customtkinter.CTkLabel(third_frame, text="", image=gamer_over_image, fg_color="transparent")
+game_over_label.place(relx=0.25, rely=0.1)
 
-exit_button = customtkinter.CTkButton(third_frame,text="Quitter le jeu",height=50,width=200,
-                                      font=customtkinter.CTkFont(size=20,weight="bold"),hover_color="red",
-                                      command=app.destroy)
-exit_button.place(relx=0.3,rely=0.8)
+exit_button = customtkinter.CTkButton(third_frame, text="Quitter le jeu", height=50, width=200,
+                                      font=customtkinter.CTkFont(family="Montserrat", size=20, weight="bold"),
+                                      hover_color="red", command=quit_confirmation)
+exit_button.place(relx=0.3, rely=0.8)
 
-restart_button = customtkinter.CTkButton(third_frame,text="Relancer une partie",height=50,width=200,
-                                      font=customtkinter.CTkFont(size=20,weight="bold"),hover_color="green",
+restart_button = customtkinter.CTkButton(third_frame, text="Relancer une partie", height=50, width=200,
+                                         font=customtkinter.CTkFont(family="Montserrat", size=20, weight="bold"),
+                                         hover_color="green",
                                          command=home_button_event)
-restart_button.place(relx=0.6,rely=0.8)
-
+restart_button.place(relx=0.6, rely=0.8)
 
 # select default frame
 select_frame_by_name("home")
