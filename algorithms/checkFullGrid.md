@@ -25,12 +25,13 @@
 #### Début
 	col <- 0
   	full <- Faux
-  	Si ((perk1)ET(perk2)) alors :
-   		full <- Vrai
-    		TantQue ((col <= boardWidth)ET(full)) faire :
-      			Si (checkValidPlay(boardWidth, boardHeight, col, grid)) alors :
-        			full <- Faux
+  	Si perk1 ET perk2 alors :
+        full <- Vrai
+        TantQue col <= boardWidth ET full faire :
+            Si checkValidPlay(boardWidth, boardHeight, col, grid) alors :
+                full <- Faux
 			FinSi
+            col <- col + 1
 		FinTantQue
 	FinSi
   	renvoyer full

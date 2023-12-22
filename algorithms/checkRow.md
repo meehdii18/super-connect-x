@@ -26,12 +26,13 @@
 #### Début
 	row <- 0
     count <- 0
-	TantQue ((row <= boardHeight)ET(count< requiredCoins)) faire :
+    current <- 0
+	TantQue row <= boardHeight ET count < requiredCoins faire :
 		current <- grid[row,0]
 		col <- 0
 		count <- 0
-		TantQue ((col <= boardWidth)ET(count < requiredCoins)ET(boardWidth-col >= requiredCoins-count) faire :
-			Si (current = grid[row,col]) alors :
+		TantQue col <= boardWidth ET count < requiredCoins ET boardWidth-col >= requiredCoins-count faire :
+			Si current = grid[row,col] alors :
 				count <- count + 1
 			Sinon:
 				count <- 1
@@ -41,7 +42,7 @@
 		FinTantQue
 		row <- row + 1
 	FinTantQue
-	Si (count = requiredCoins) alors :
+	Si count = requiredCoins alors :
 		winner <- current
 	Sinon
 		winner <- 0

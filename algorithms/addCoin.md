@@ -26,9 +26,9 @@
 #### Début
 	row <- 0
 	actualCoin <- grid[row,playColumn]
-	TantQue ((actualCoin !=0)ET(row <= boardHeight)) faire :
+	TantQue actualCoin !=0 ET row <= boardHeight faire :
 		actualCoin <- grid[row,playColumn]
-		Si (actualCoin) alors :
+		Si actualCoin != 0 alors :
 			row <- row + 1
 		FinSi
 	FinTantQue
