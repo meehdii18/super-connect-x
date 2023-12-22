@@ -4,8 +4,8 @@ def init(board_width, board_height):
 
 
 def clear(grid):
-    board_width = len(grid)
-    board_height = len(grid[0])
+    board_width = len(grid[0])
+    board_height = len(grid)
     grid = init(board_width, board_height)
     return grid
 
@@ -20,15 +20,15 @@ def affiche(grid):
 
 
 def check_valid_play(play_column, grid):
-    board_height = len(grid[0])
-    if grid[board_height][play_column] == 0:
+    board_height = len(grid)
+    if grid[board_height - 1][play_column] == 0:
         return True
     else:
         return False
 
 
 def check_full_grid(grid, perk1, perk2):
-    board_width = len(grid)
+    board_width = len(grid[0])
     column = 0
     full = False
     if perk1 and perk2:
@@ -41,8 +41,8 @@ def check_full_grid(grid, perk1, perk2):
 
 
 def add_coin(play_column, player, grid):
-    board_width = len(grid)
-    board_height = len(grid[0])
+    board_width = len(grid[0])
+    board_height = len(grid)
     if (board_width < 0
             or board_height < 0
             or play_column > board_width):
@@ -58,8 +58,8 @@ def add_coin(play_column, player, grid):
 
 
 def remove_coin(column, grid):
-    board_width = len(grid)
-    board_height = len(grid[0])
+    board_width = len(grid[0])
+    board_height = len(grid)
     if (board_width < 0
             or board_height < 0
             or column > board_width):
@@ -74,17 +74,17 @@ def remove_coin(column, grid):
 
 
 def check_row(required_coins, grid):
-    board_width = len(grid)
-    board_height = len(grid[0])
+    board_width = len(grid[0])
+    board_height = len(grid)
     row = 0
     count = 0
     current = 0
-    while (row <= board_height
+    while (row < board_height
            and count < required_coins):
         current = grid[row][0]
         col = 0
         count = 0
-        while (col <= board_width
+        while (col < board_width
                and count < required_coins
                and board_width - col >= required_coins - count):
             if current == grid[row][col]:
@@ -102,17 +102,17 @@ def check_row(required_coins, grid):
 
 
 def check_col(required_coins, grid):
-    board_width = len(grid)
-    board_height = len(grid[0])
+    board_width = len(grid[0])
+    board_height = len(grid)
     col = 0
     count = 0
     current = 0
-    while (col <= board_width
+    while (col < board_width
            and count < required_coins):
         current = grid[0][col]
         row = 0
         count = 0
-        while (row <= board_height
+        while (row < board_height
                and count < required_coins
                and board_height - row >= required_coins - count
                and grid[row][col]):
@@ -131,8 +131,8 @@ def check_col(required_coins, grid):
 
 
 def check_down_diag(required_coins, grid):
-    board_width = len(grid)
-    board_height = len(grid[0])
+    board_width = len(grid[0])
+    board_height = len(grid)
     row_start = required_coins - 1
     col_start = 0
     count = 0
@@ -143,7 +143,7 @@ def check_down_diag(required_coins, grid):
         col = col_start
         current = grid[row][col]
         count = 0
-        while (col <= board_width
+        while (col < board_width
                and row >= 0
                and count < required_coins
                and min(board_width - col, row) >= required_coins - count):
@@ -154,7 +154,7 @@ def check_down_diag(required_coins, grid):
             current = grid[row][col]
             row -= 1
             col += 1
-        if row_start == board_height:
+        if row_start == board_height - 1:
             col_start += 1
         else:
             row_start += 1
@@ -166,8 +166,8 @@ def check_down_diag(required_coins, grid):
 
 
 def check_up_diag(required_coins, grid):
-    board_width = len(grid)
-    board_height = len(grid[0])
+    board_width = len(grid[0])
+    board_height = len(grid)
     row_start = board_height - required_coins + 1
     col_start = 0
     count = 0
@@ -178,8 +178,8 @@ def check_up_diag(required_coins, grid):
         col = col_start
         current = grid[row][col]
         count = 0
-        while (col <= board_width
-               and row <= board_height
+        while (col < board_width
+               and row < board_height
                and count < required_coins
                and min(board_width - col, board_height - row) >= required_coins - count):
             if current == grid[row][col]:
@@ -217,6 +217,38 @@ def check_victory(required_coins, grid):
         return score
 
 
-game_grid = init(8, 5)
-game_grid[3][2] = 1
-affiche(game_grid)
+width = -1
+height = -1
+required_coin_nb = -1
+while width < 0:
+    width = int(input("Entrer une largeur de grille supérieure à  0 : "))
+while height < 0:
+    height = int(input("Entrer une hauteur de grille supérieure à  0 : "))
+max_required_coin = min(width, height)
+while required_coin_nb < 0 or required_coin_nb > max_required_coin:
+    required_coin_nb = int(input(
+        "Entrer le nombre de jetons à aligner pour gagner la partie, compris entre 0 et {0} : ".format(
+            max_required_coin)))
+game_grid = init(width, height)
+win = 0
+while win == 0:
+    for game_player in (1, 2):
+        if win == 0:
+            print("-" * 60)
+            affiche(game_grid)
+            col_to_play = -1
+            valid_play = False
+            while col_to_play < 0 or col_to_play >= width or not valid_play:
+                col_to_play = int(
+                    input(
+                        "Joueur {0} : Entrer une colonne pour jouer entre 0 et {1} : ".format(game_player, width - 1)))
+                if 0 <= col_to_play < width:
+                    valid_play = check_valid_play(col_to_play, game_grid)
+                if valid_play:
+                    add_coin(col_to_play, game_player, game_grid)
+            win = check_victory(required_coin_nb, game_grid)
+
+if win == -1:
+    print("Le joueur 1 a gagné !")
+else:
+    print("Le joueur 2 a gagné !")

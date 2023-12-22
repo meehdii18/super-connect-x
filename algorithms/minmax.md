@@ -1,4 +1,4 @@
-## Fonction checkVictory
+## Fonction minMax
 
 
 ### Entrées :
@@ -20,52 +20,54 @@
 
 ### Variables :
 
-- Entier : `temp`
-- Entier : `score`
+- Entier : `temp`,`score`,`best`,`bestCol`
 
 #### Début
 
     score = checkVictory(grid)
 
     #Maximizer win
-    Si (score == 1) Alors
-        revnoyer score
+    Si score != 1 alors :
+        renvoyer score
 
     #Minimizer win
-    Si (score == -1) Alors
+    Si score = -1 alors :
         renvoyer score
 
     #Full grid
-    Si (checkFullGrid(grid)) Alors
+    Si checkFullGrid(grid) alors :
         renvoyer 0
 
-    Si (maximazingPlayerTurn) Alors   
+    Si maximazingPlayerTurn alors :  
         best <- -1000
         bestCol <- -1
-        Pour col allant de 0 à boardWidth - 1 faire
-            Si (grid[boardHeight-1][col] == 0) Alors
+        Pour col allant de 0 à boardWidth - 1 faire :
+            Si (grid[boardHeight-1,col] = 0) alors :
                 addCoin(boardWidth, boardHeight, col, 2, grid)
-                temp = minimax(grid, depth + 1, non isMaximizingPlayerTurn)))
+                temp = minMax(grid, depth - 1, NON maximizingPlayerTurn)
                 removeCoin(col, boardWidth, boardHeight, grid)
-                Si (temp>best) alors
+                Si (temp>best) alors :
                     best <- temp
                     best_col <- col
+                FinSi
             FinSi
         renvoyer best, best_col
-        Fin Pour
+        FinPour
     Sinon
         best <- 1000
-        Pour col allant de 0 à boardWidth -1 faire
-            Si grid[boardHeight-1][col] == 0 Alors
+        bestCol <- -1
+        Pour col allant de 0 à boardWidth -1 faire :
+            Si grid[boardHeight-1,col] = 0 alors :
                 addCoin(boardWidth, boardHeight, col, 1, grid)
-                temp = minimax(grid, depth + 1, non isMaximizingPlayerTurn)))     
+                temp = minMax(grid, depth - 1, NON maximizingPlayerTurn)     
                 removeCoin(col, boardWidth, boardHeight, grid)
-                Si temp<best alors
+                Si temp<best alors :
                     best <- temp
                     bestCol <- col
+                FinSi
             FinSi
         renvoyer best, bestCol
-        Fin Pour
+        FinPour
     FinSi
 
 #### Fin
