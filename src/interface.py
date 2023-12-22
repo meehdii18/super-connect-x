@@ -1,12 +1,11 @@
 import os
 import tkinter as tk
-
 import customtkinter
 from PIL import Image
 
 app = customtkinter.CTk()
 app.title("SUPER CONNECT X")
-app.geometry("1050x675")
+app.geometry("1080x720")
 app.resizable(False, False)
 
 
@@ -18,15 +17,15 @@ def select_frame_by_name(name):
 
     # show selected frame
     if name == "home":
-        home_frame.grid(row=1, column=0, sticky="nsew")  # Change column to 0
+        home_frame.grid(row=1, column=0, sticky="nsew")
     else:
         home_frame.grid_forget()
     if name == "frame_2":
-        second_frame.grid(row=1, column=0, sticky="nsew")  # Change column to 0
+        second_frame.grid(row=1, column=0, sticky="nsew")
     else:
         second_frame.grid_forget()
     if name == "frame_3":
-        third_frame.grid(row=1, column=0, sticky="nsew")  # Change column to 0
+        third_frame.grid(row=1, column=0, sticky="nsew")
     else:
         third_frame.grid_forget()
 
@@ -48,7 +47,7 @@ def change_appearance_mode_event(new_appearance_mode):
 
 
 # Base theme
-customtkinter.set_appearance_mode("System")
+customtkinter.set_appearance_mode("Dark")
 customtkinter.set_default_color_theme("dark-blue")  # Themes: "blue" (standard), "green", "dark-blue"
 
 # set grid layout 1x2
@@ -57,13 +56,13 @@ app.grid_rowconfigure(1, weight=10)
 app.grid_columnconfigure(0, weight=1)
 
 # load images with light and dark mode image
-image_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "test_images")
-logo_image = customtkinter.CTkImage(Image.open(os.path.join(image_path, "logo.png")), size=(26, 26))
+image_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "images")
+logo_image = customtkinter.CTkImage(Image.open(os.path.join(image_path, "logo.png")), size=(40, 40))
 banner_image = customtkinter.CTkImage(Image.open(os.path.join(image_path, "large_test_image.png")), size=(650, 195))
 home_image = customtkinter.CTkImage(Image.open(os.path.join(image_path, "home.png")), size=(20, 20))
 chat_image = customtkinter.CTkImage(Image.open(os.path.join(image_path, "game.png")), size=(20, 20))
 add_user_image = customtkinter.CTkImage(Image.open(os.path.join(image_path, "end.png")), size=(20, 20))
-start_image = customtkinter.CTkImage(Image.open(os.path.join(image_path, "start.png")), size=(90, 75))
+start_image = customtkinter.CTkImage(Image.open(os.path.join(image_path, "start.png")), size=(50, 50))
 
 # create navigation frame
 navigation_frame = customtkinter.CTkFrame(app, corner_radius=0)
@@ -75,7 +74,7 @@ app.rowconfigure(0, minsize=nav_frame_height)
 navigation_frame_label = customtkinter.CTkLabel(navigation_frame, text="  SUPER CONNECT X", image=logo_image,
                                                 compound="left", font=customtkinter.CTkFont(size=15, weight="bold"))
 navigation_frame_label.grid(row=0, column=0)
-navigation_frame_label.place(relx=0.1, rely=0.5, anchor="center")  # Adjust rely as needed
+navigation_frame_label.place(relx=0.1, rely=0.5, anchor="center")
 
 home_button = customtkinter.CTkButton(navigation_frame, corner_radius=0, height=40, border_spacing=10, text="MAIN MENU",
                                       fg_color="transparent", text_color=("gray10", "gray90"),
@@ -83,7 +82,7 @@ home_button = customtkinter.CTkButton(navigation_frame, corner_radius=0, height=
                                       font=customtkinter.CTkFont(size=15, weight="bold"),
                                       image=home_image, anchor="w", command=home_button_event)
 home_button.grid(row=0, column=1, sticky="ew")
-home_button.place(relx=0.35, rely=0.5, anchor="center")  # Adjust rely as needed
+home_button.place(relx=0.35, rely=0.5, anchor="center")
 
 frame_2_button = customtkinter.CTkButton(navigation_frame, corner_radius=0, height=40, border_spacing=10,
                                          text="GAME FRAME",
@@ -92,7 +91,7 @@ frame_2_button = customtkinter.CTkButton(navigation_frame, corner_radius=0, heig
                                          font=customtkinter.CTkFont(size=15, weight="bold"),
                                          image=chat_image, anchor="w", command=frame_2_button_event)
 frame_2_button.grid(row=0, column=2, sticky="ew")
-frame_2_button.place(relx=0.5, rely=0.5, anchor="center")  # Adjust rely as needed
+frame_2_button.place(relx=0.5, rely=0.5, anchor="center")
 
 frame_3_button = customtkinter.CTkButton(navigation_frame, corner_radius=0, height=40, border_spacing=10,
                                          text="END MENU",
@@ -103,7 +102,7 @@ frame_3_button = customtkinter.CTkButton(navigation_frame, corner_radius=0, heig
 frame_3_button.grid(row=0, column=3, sticky="ew")
 frame_3_button.place(relx=0.65, rely=0.5, anchor="center")
 
-appearance_mode_menu = customtkinter.CTkOptionMenu(navigation_frame, values=["System", "Light", "Dark"],
+appearance_mode_menu = customtkinter.CTkOptionMenu(navigation_frame, values=["Dark","Light","System"],
                                                    command=change_appearance_mode_event)
 appearance_mode_menu.grid(row=0, column=4, sticky="w")
 appearance_mode_menu.place(relx=0.85, rely=0.5, anchor="w")
@@ -205,16 +204,31 @@ player2_color_menu_text = customtkinter.CTkLabel(home_frame, text="Couleur de l'
 player2_color_menu_text.grid(row=1, column=0)
 player2_color_menu_text.place(relx=0.305, rely=0.75 + 0.03)
 
-home_frame_start_button = customtkinter.CTkButton(home_frame,text="",image=start_image,fg_color="transparent",
-                                                  command=frame_2_button_event,hover=False)
-home_frame_start_button.grid(row=1,column=0)
-home_frame_start_button.place(relx=0.46,rely=0.86)
+home_frame_start_button = customtkinter.CTkButton(home_frame, text="", image=start_image, fg_color="transparent",
+                                                  command=frame_2_button_event, hover=False)
+home_frame_start_button.grid(row=1, column=0)
+home_frame_start_button.place(relx=0.46, rely=0.86)
 
 # Game Frame
 second_frame = customtkinter.CTkFrame(app, corner_radius=0, fg_color="transparent")
 
 # End Menu
 third_frame = customtkinter.CTkFrame(app, corner_radius=0, fg_color="transparent")
+
+gamer_over_image = customtkinter.CTkImage(Image.open(os.path.join(image_path, "game_over.png")), size=(600, 360))
+game_over_label = customtkinter.CTkLabel(third_frame,text="",image=gamer_over_image,fg_color="transparent")
+game_over_label.place(relx=0.25,rely=0.1)
+
+exit_button = customtkinter.CTkButton(third_frame,text="Quitter le jeu",height=50,width=200,
+                                      font=customtkinter.CTkFont(size=20,weight="bold"),hover_color="red",
+                                      command=app.destroy)
+exit_button.place(relx=0.3,rely=0.8)
+
+restart_button = customtkinter.CTkButton(third_frame,text="Relancer une partie",height=50,width=200,
+                                      font=customtkinter.CTkFont(size=20,weight="bold"),hover_color="green",
+                                         command=home_button_event)
+restart_button.place(relx=0.6,rely=0.8)
+
 
 # select default frame
 select_frame_by_name("home")
