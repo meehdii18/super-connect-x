@@ -1,4 +1,4 @@
-## Fonction checkVictory
+## Fonction MinMax
 
 
 ### Entrées :
