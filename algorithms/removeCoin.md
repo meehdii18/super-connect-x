@@ -9,8 +9,7 @@
 ### Pré-conditions :
 - `boardWidth` > 0
 - `boardHeight` > 0
-- `requiredCoins` > 0
-- `col` < `boardWidth`
+- `col` <= `boardWidth`
 
 ### Sortie :
 - Tableau[`boardWidth`, `boardHeight`] : `grid`
@@ -19,15 +18,18 @@
 - `grid` modifiée avec le jeton retiré si possible.
 
 ### Variables :
-- Entier : `row`, `col`, `count`, `winner`
+- Entier : `row`, `col`
+- Booléen : `deleted`
 
 #### Début
-    Pour row allant de board à boardHeight - 1 à 0 un pas de -1 faire
-        Si (grid[row][col] != 0) Alors
-            grid[row][col] = 0
-            break
+    row <- boardHeight - 1
+    deleted <- Faux
+    TantQue row >= 0 ET NON deleted faire :
+        Si (grid[row,col] != 0) alors :
+            grid[row,col] <- 0
+            deleted <- Vrai
         FinSi
-    FinPour
+    FinTantQue
     renvoyer grid
 
 #### Fin

@@ -21,16 +21,16 @@
 - `score` = 1 si l'ordinateur gagne
 
 ### Variables :
-
+- Entier : `score`
 
 #### Début
 
-    Si (checkCol(requiredCoins, boardWidth, boardHeight, grid) == 1 ou checkRow(requiredCoins, boardWidth, boardHeight, grid) == 1 ou checkDiagUp(requiredCoins, boardWidth, boardHeight, grid) == 1 ou checkDiagDown(requiredCoins, boardWidth, boardHeight, grid) == 1) Alors
-        score = -1
-    Sinon Si (checkCol(requiredCoins, boardWidth, boardHeight, grid) == 2 ou checkRow(requiredCoins, boardWidth, boardHeight, grid) == 2 ou checkDiagUp(requiredCoins, boardWidth, boardHeight, grid) == 2 ou checkDiagDown(requiredCoins, boardWidth, boardHeight, grid) == 2) Alors
-        score = 1
+    Si checkCol(requiredCoins, boardWidth, boardHeight, grid) == 1 OU checkRow(requiredCoins, boardWidth, boardHeight, grid) == 1 OU checkDiagUp(requiredCoins, boardWidth, boardHeight, grid) == 1 OU checkDiagDown(requiredCoins, boardWidth, boardHeight, grid) == 1 alors :
+        score <- -1
+    Sinon Si checkCol(requiredCoins, boardWidth, boardHeight, grid) == 2 OU checkRow(requiredCoins, boardWidth, boardHeight, grid) == 2 OU checkDiagUp(requiredCoins, boardWidth, boardHeight, grid) == 2 OU checkDiagDown(requiredCoins, boardWidth, boardHeight, grid) == 2 alors
+        score <- 1
     Sinon
-        score = 0
+        score <- 0
     Fin Si
     renvoyer score
 
