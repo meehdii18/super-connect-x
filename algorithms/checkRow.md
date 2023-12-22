@@ -25,6 +25,7 @@
 
 #### Début
 	row <- 0
+    count <- 0
 	TantQue ((row <= boardHeight)ET(count< requiredCoins)) faire :
 		current <- grid[row,0]
 		col <- 0

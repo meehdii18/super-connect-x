@@ -3,14 +3,14 @@
 ### Entrées :
 - Entier : `boardWidth`,
 - Entier : `boardHeight`,
-- Entier : `playCol`,
+- Entier : `playColumn`,
 - Entier : `player`,
 - Tableau [`boardWidth`, `boardHeight`] : `grid`
 
 ### Pré-conditions :
 - `boardWidth` > 0,
 - `boardHeight` > 0,
-- `playCol` < `boardHeight` et est valide selon [`checkValidPlay`](./checkValidPlay.md),
+- `playColumn` <= `boardWidth` et est valide selon [`checkValidPlay`](./checkValidPlay.md),
 - `player` = 1 si c'est au tour du joueur,
 - `player` = 2 si c'est au tour de l'ordinateur.
 
