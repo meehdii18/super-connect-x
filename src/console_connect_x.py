@@ -137,7 +137,7 @@ def check_down_diag(required_coins, grid):
     col_start = 0
     count = 0
     current = 0
-    while (col_start <= board_width - required_coins + 1
+    while (col_start <= board_width - required_coins
            and count < required_coins):
         row = row_start
         col = col_start
@@ -146,8 +146,8 @@ def check_down_diag(required_coins, grid):
         while (col < board_width
                and row >= 0
                and count < required_coins
-               and min(board_width - col, row) >= required_coins - count):
-            if current == grid[row][col]:
+               and min(board_width - col, row + 1) >= required_coins - count):
+            if current == grid[row][col] and grid[row][col]:
                 count += 1
             else:
                 count = 1
@@ -168,11 +168,11 @@ def check_down_diag(required_coins, grid):
 def check_up_diag(required_coins, grid):
     board_width = len(grid[0])
     board_height = len(grid)
-    row_start = board_height - required_coins + 1
+    row_start = board_height - required_coins
     col_start = 0
     count = 0
     current = 0
-    while (col_start <= board_width - required_coins + 1
+    while (col_start <= board_width - required_coins
            and count < required_coins):
         row = row_start
         col = col_start
@@ -182,7 +182,7 @@ def check_up_diag(required_coins, grid):
                and row < board_height
                and count < required_coins
                and min(board_width - col, board_height - row) >= required_coins - count):
-            if current == grid[row][col]:
+            if current == grid[row][col] and grid[row][col]:
                 count += 1
             else:
                 count = 1
@@ -202,15 +202,13 @@ def check_up_diag(required_coins, grid):
 
 def check_victory(required_coins, grid):
     if required_coins > 0:
-        if (check_col(required_coins, grid) == 1
-                or check_row(required_coins, grid) == 1
-                or check_up_diag(required_coins, grid) == 1
-                or check_down_diag(required_coins, grid) == 1):
+        victory = (check_col(required_coins, grid)
+                   ^ check_row(required_coins, grid)
+                   ^ check_up_diag(required_coins, grid)
+                   ^ check_down_diag(required_coins, grid))
+        if victory == 1:
             score = -1
-        elif (check_col(required_coins, grid) == 2
-              or check_row(required_coins, grid) == 2
-              or check_up_diag(required_coins, grid) == 2
-              or check_down_diag(required_coins, grid) == 2):
+        elif victory == 2:
             score = 1
         else:
             score = 0
@@ -247,7 +245,7 @@ while win == 0:
                 if valid_play:
                     add_coin(col_to_play, game_player, game_grid)
             win = check_victory(required_coin_nb, game_grid)
-
+affiche(game_grid)
 if win == -1:
     print("Le joueur 1 a gagné !")
 else:

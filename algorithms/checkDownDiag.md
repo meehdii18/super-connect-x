@@ -27,13 +27,13 @@
   	colStart <- 0
     count <- 0
     current <- 0
-	TantQue colStart < boardWidth - requiredCoins + 1 ET count < requiredCoins faire :
+	TantQue colStart <= boardWidth - requiredCoins ET count < requiredCoins faire :
         row <- rowStart
         col <- colStart
 		current <- grid[row,col]
 		count <- 0
-		TantQue col <= boardWidth ET row >= 0 ET count < requiredCoins ET min(boardWidth-col, row) >= requiredCoins-count faire :
-			Si current = grid[row,col] alors :
+		TantQue col < boardWidth ET row >= 0 ET count < requiredCoins ET min(boardWidth-col, row+1) >= requiredCoins-count faire :
+			Si current = grid[row,col] et grid[row,col] != 0 alors :
 				count <- count + 1
 			Sinon:
 				count <- 1
@@ -42,7 +42,7 @@
       		row <- row - 1
 			col <- col + 1
 		FinTantQue
-        Si rowStart = boardHeight alors :
+        Si rowStart = boardHeight - 1 alors :
             colStart <- colStart + 1
         Sinon
             rowStart <- rowStart + 1

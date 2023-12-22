@@ -27,11 +27,11 @@
 	row <- 0
     count <- 0
     current <- 0
-	TantQue row <= boardHeight ET count < requiredCoins faire :
+	TantQue row < boardHeight ET count < requiredCoins faire :
 		current <- grid[row,0]
 		col <- 0
 		count <- 0
-		TantQue col <= boardWidth ET count < requiredCoins ET boardWidth-col >= requiredCoins-count faire :
+		TantQue col < boardWidth ET count < requiredCoins ET boardWidth-col >= requiredCoins-count faire :
 			Si current = grid[row,col] alors :
 				count <- count + 1
 			Sinon:

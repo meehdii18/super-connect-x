@@ -21,13 +21,14 @@
 - `score` = 1 si l'ordinateur gagne
 
 ### Variables :
-- Entier : `score`
+- Entier : `score`,`victory`
 
 #### Début
 
-    Si checkCol(requiredCoins, boardWidth, boardHeight, grid) == 1 OU checkRow(requiredCoins, boardWidth, boardHeight, grid) == 1 OU checkDiagUp(requiredCoins, boardWidth, boardHeight, grid) == 1 OU checkDiagDown(requiredCoins, boardWidth, boardHeight, grid) == 1 alors :
+    victory = checkCol(requiredCoins, boardWidth, boardHeight, grid) OUEX checkRow(requiredCoins, boardWidth, boardHeight, grid)  OUEX checkDiagUp(requiredCoins, boardWidth, boardHeight, grid) OUEX checkDiagDown(requiredCoins, boardWidth, boardHeight, grid)
+    Si victory == 1 alors :
         score <- -1
-    Sinon Si checkCol(requiredCoins, boardWidth, boardHeight, grid) == 2 OU checkRow(requiredCoins, boardWidth, boardHeight, grid) == 2 OU checkDiagUp(requiredCoins, boardWidth, boardHeight, grid) == 2 OU checkDiagDown(requiredCoins, boardWidth, boardHeight, grid) == 2 alors
+    Sinon Si victory == 2 alors
         score <- 1
     Sinon
         score <- 0
