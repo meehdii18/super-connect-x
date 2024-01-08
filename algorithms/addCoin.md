@@ -15,7 +15,7 @@
 - `player` = 2 si c'est au tour de l'ordinateur.
 
 ### Sortie :
-- Tableau [boardWidth, boardHeight] : `grid` 
+- Tableau [`boardWidth`, `boardHeight`] : `grid` 
 
 ### Post-conditions :
 - `grid` modifiée avec le coup du joueur.
