@@ -1,16 +1,15 @@
 import os
 import tkinter as tk
-
 import customtkinter
 import pyglet
 from CTkMessagebox import CTkMessagebox
 from PIL import Image
+from console_connect_x import init,affiche
 
 app = customtkinter.CTk()
 app.title("SUPER CONNECT X")
-app.geometry("1080x720")
+app.geometry("1296x864")
 app.resizable(False, False)
-
 
 def select_frame_by_name(name):
     # set button color for selected button
@@ -55,6 +54,7 @@ def launch_confirmation():
                            option_1="Non", option_2="Oui", sound=True, corner_radius=20)
     if launch.get() == "Oui":
         frame_2_button_event()
+        start_game()
 
 
 def quit_confirmation():
@@ -63,6 +63,51 @@ def quit_confirmation():
     if end_game.get() == "Oui":
         app.destroy()
 
+def start_game():
+    columns = var_column.get()
+    rows = var_row.get()
+    required_coins = var_requiredcoins.get()
+    difficulty = var_difficulty.get()
+    player1_color_choice = player1_color.get().lower()
+    player2_color_choice = player2_color.get().lower()
+    initialize_game(columns,rows,required_coins,difficulty,player1_color_choice,player2_color_choice)
+
+
+def display_game_board(canvas, game_board, player1_color,player2_color,cell_size=60, padding = 10):
+    canvas.delete("all")  # Efface tout contenu précédent sur le canvas
+
+    for row_idx, row in enumerate(game_board):
+        for col_idx, cell in enumerate(row):
+            x1 = col_idx * cell_size + 6
+            y1 = row_idx * cell_size + 6
+            x2 = x1 + cell_size - padding
+            y2 = y1 + cell_size - padding
+
+            canvas.create_oval(x1, y1, x2, y2, fill="white")
+
+            if cell == 1:
+                canvas.create_oval(x1, y1, x2, y2, fill=player1_color,outline=player1_color)
+            elif cell == 2:
+                canvas.create_oval(x1, y1, x2, y2, fill=player2_color,outline=player2_color)
+
+    canvas.update()  # Met à jour le canvas pour afficher les changements
+
+
+def initialize_game(columns, rows, required_coins, difficulty, player1_color, player2_color):
+    game_board = init(columns,rows)
+
+
+    game_canvas = customtkinter.CTkCanvas(second_frame, width=columns * 60, height=rows * 60)
+    game_canvas.grid(row=0, column=0, sticky="nsew")
+    game_canvas.place(relx=0.5, rely=0.5, anchor="center")
+
+
+    game_board[0][0]=1
+    game_board[0][1]=2
+    display_game_board(game_canvas, game_board,player1_color,player2_color)
+
+    print("Columns :",columns," Rows:",rows," Required coins:",required_coins," Difficulty:",difficulty,
+          " Player color:",player1_color," AI color:",player2_color)
 
 # Base theme
 customtkinter.set_appearance_mode("Dark")
@@ -141,6 +186,8 @@ home_frame_large_image_label.place(relx=0.2, rely=-0.025)
 
 var_column = tk.IntVar()
 var_row = tk.IntVar()
+
+
 var_requiredcoins = tk.IntVar()
 var_difficulty = tk.IntVar()
 
@@ -148,7 +195,7 @@ home_frame_column_text = customtkinter.CTkLabel(home_frame, text="Nombre de colo
                                                 font=customtkinter.CTkFont(family="Montserrat", size=20))
 home_frame_column_text.grid(row=1, column=0)
 home_frame_column_text.place(relx=0.32, rely=0.298 + 0.03)
-home_frame_column_slider = customtkinter.CTkSlider(home_frame, from_=3, to=10, number_of_steps=8, variable=var_column)
+home_frame_column_slider = customtkinter.CTkSlider(home_frame, from_=3, to=8, number_of_steps=5, variable=var_column)
 home_frame_column_slider.grid(row=1, column=0)
 home_frame_column_slider.place(relx=0.55, rely=0.3 + 0.03)
 home_frame_column_slider.set(7)
@@ -160,7 +207,7 @@ home_frame_row_text = customtkinter.CTkLabel(home_frame, text="Nombre de lignes 
                                              font=customtkinter.CTkFont(family="Montserrat", size=20))
 home_frame_row_text.grid(row=1, column=0)
 home_frame_row_text.place(relx=0.35, rely=0.398 + 0.03)
-home_frame_row_slider = customtkinter.CTkSlider(home_frame, from_=3, to=10, number_of_steps=8, variable=var_row)
+home_frame_row_slider = customtkinter.CTkSlider(home_frame, from_=3, to=8, number_of_steps=5, variable=var_row)
 home_frame_row_slider.grid(row=1, column=0)
 home_frame_row_slider.place(relx=0.55, rely=0.4 + 0.03)
 home_frame_row_slider.set(6)
@@ -242,6 +289,12 @@ gamer_over_image = customtkinter.CTkImage(Image.open(os.path.join(image_path, "g
 game_over_label = customtkinter.CTkLabel(third_frame, text="", image=gamer_over_image, fg_color="transparent")
 game_over_label.place(relx=0.25, rely=0.1)
 
+winner_text = customtkinter.CTkLabel(third_frame, text="X à gagné !", fg_color="transparent",
+                                                    font=customtkinter.CTkFont(family="Montserrat", size=20))
+winner_text.grid(row=1, column=0)
+winner_text.place(relx=0.495, rely=0.7)
+
+
 exit_button = customtkinter.CTkButton(third_frame, text="Quitter le jeu", height=50, width=200,
                                       font=customtkinter.CTkFont(family="Montserrat", size=20, weight="bold"),
                                       hover_color="red", command=quit_confirmation)
@@ -255,5 +308,7 @@ restart_button.place(relx=0.6, rely=0.8)
 
 # select default frame
 select_frame_by_name("home")
+
+
 
 app.mainloop()
