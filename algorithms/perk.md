@@ -30,7 +30,7 @@
         row <- row + 1
     FinTantQue
     gamestate[0] <- grid
-    gamestate[1][player] <- Vrai 
+    gamestate[1][player - 1] <- Vrai 
 	renvoyer gamestate
 
 #### Fin
