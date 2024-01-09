@@ -213,47 +213,61 @@ def check_victory(required_coins, grid):
         else:
             score = 0
         return score
-"""
 
-width = -1
-height = -1
-required_coin_nb = -1
-while width < 0:
-    width = int(input("Entrer une largeur de grille supérieure à  0 : "))
-while height < 0:
-    height = int(input("Entrer une hauteur de grille supérieure à  0 : "))
-max_required_coin = min(width, height)
-while required_coin_nb < 0 or required_coin_nb > max_required_coin:
-    required_coin_nb = int(input(
-        "Entrer le nombre de jetons à aligner pour gagner la partie, compris entre 0 et {0} : ".format(
-            max_required_coin)))
-
-game_grid = init(width, height)
-game_state = [game_grid, [False, False], 1]
-win = 0
-while win == 0:
-    if win == 0:
+def do_game_turn(gamestate,required_coin):
+    if __name__ == '__main__':
         print("-" * 60)
-        affiche(game_state[0])
-        col_to_play = -1
-        valid_play = False
-        while col_to_play < 0 or col_to_play >= width or not valid_play:
-            col_to_play = int(
-                input(
-                    "Joueur {0} : Entrer une colonne pour jouer entre 0 et {1} : ".format(game_state[2],
-                                                                                          width - 1)))
-            if 0 <= col_to_play < width:
-                valid_play = check_valid_play(col_to_play, game_state[0])
-            if valid_play:
-                add_coin(col_to_play, game_state[2], game_state[0])
-        win = check_victory(required_coin_nb, game_state[0])
-    if game_state[2] == 1:
-        game_state[2] = 2
+        affiche(gamestate[0])
+        print("-" * 60)
+    col_to_play = -1
+    valid_play = False
+    board_width = len(gamestate[0][0])
+    while col_to_play < 0 or col_to_play >= board_width or not valid_play:
+        col_to_play = int(
+            input(
+                "Joueur {0} : Entrer une colonne pour jouer entre 0 et {1} : ".format(gamestate[2],
+                                                                                      board_width - 1)))
+        if 0 <= col_to_play < board_width:
+            valid_play = check_valid_play(col_to_play, gamestate[0])
+        if valid_play:
+            add_coin(col_to_play, gamestate[2], gamestate[0])
+    win = check_victory(required_coin, gamestate[0])
+    if gamestate[2] == 1:
+        gamestate[2] = 2
     else:
-        game_state[2] = 1
-affiche(game_state[0])
-if win == -1:
-    print("Le joueur 1 a gagné !")
-else:
-    print("Le joueur 2 a gagné !")
-"""
+        gamestate[2] = 1
+    return win
+
+if __name__=='__main__':
+    width = -1
+    height = -1
+    required_coin_nb = -1
+    while width < 0:
+        width = int(input("Entrer une largeur de grille supérieure à  0 : "))
+    while height < 0:
+        height = int(input("Entrer une hauteur de grille supérieure à  0 : "))
+    max_required_coin = min(width, height)
+    while required_coin_nb < 0 or required_coin_nb > max_required_coin:
+        required_coin_nb = int(input(
+            "Entrer le nombre de jetons à aligner pour gagner la partie, compris entre 0 et {0} : ".format(
+                max_required_coin)))
+
+    game_grid = init(width, height)
+    game_state = [game_grid, [False, False], 1]
+    game_advance = []
+    win = 0
+    while win == 0:
+        game_advance.append(game_state.copy())
+        win = do_game_turn(game_state,required_coin_nb)
+        print(game_advance)
+    print("-" * 60)
+    affiche(game_state[0])
+    print("-" * 60)
+    if win == -1:
+        print("Le joueur 1 a gagné !")
+    else:
+        print("Le joueur 2 a gagné !")
+    print("-" * 60)
+    for el in game_advance :
+        affiche(el[0])
+        print(el[1],el[2])
