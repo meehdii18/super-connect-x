@@ -1,3 +1,6 @@
+import copy
+
+
 def init(board_width, board_height):
     grid = [[0 for _ in range(board_width)] for _ in range(board_height)]
     return grid
@@ -40,7 +43,12 @@ def check_full_grid(grid, perk1, perk2):
     return full
 
 
-def add_coin(play_column, player, grid):
+def undo(gameadvance):
+    gameadvance.pop(-1)
+
+
+def add_coin(play_column, player, grid_not_to_touch):
+    grid = copy.deepcopy(grid_not_to_touch)
     board_width = len(grid[0])
     board_height = len(grid)
     if (board_width < 0
@@ -214,7 +222,9 @@ def check_victory(required_coins, grid):
             score = 0
         return score
 
-def do_game_turn(gamestate,required_coin):
+
+def do_game_turn(gameadvance, required_coin):
+    gamestate = copy.deepcopy(gameadvance[-1])
     if __name__ == '__main__':
         print("-" * 60)
         affiche(gamestate[0])
@@ -222,23 +232,36 @@ def do_game_turn(gamestate,required_coin):
     col_to_play = -1
     valid_play = False
     board_width = len(gamestate[0][0])
+    win = 0
     while col_to_play < 0 or col_to_play >= board_width or not valid_play:
-        col_to_play = int(
-            input(
-                "Joueur {0} : Entrer une colonne pour jouer entre 0 et {1} : ".format(gamestate[2],
-                                                                                      board_width - 1)))
-        if 0 <= col_to_play < board_width:
-            valid_play = check_valid_play(col_to_play, gamestate[0])
-        if valid_play:
-            add_coin(col_to_play, gamestate[2], gamestate[0])
-    win = check_victory(required_coin, gamestate[0])
-    if gamestate[2] == 1:
-        gamestate[2] = 2
-    else:
-        gamestate[2] = 1
+        col_to_play = input(
+            "Joueur {0} : Entrer une colonne pour jouer entre 0 et {1} : ".format(gamestate[2],
+                                                                                  board_width - 1))
+        if col_to_play == 'u' :
+            undo(gameadvance)
+            col_to_play = 0
+            valid_play = True
+            print(1)
+        elif col_to_play == 'p' :
+            pass
+            print(2)
+        else :
+            col_to_play = int(col_to_play)
+            if 0 <= col_to_play < board_width:
+                valid_play = check_valid_play(col_to_play, gamestate[0])
+            if valid_play:
+                gamestate[0] = add_coin(col_to_play, gamestate[2], gamestate[0])
+            win = check_victory(required_coin, gamestate[0])
+            if gamestate[2] == 1:
+                gamestate[2] = 2
+            else:
+                gamestate[2] = 1
+            gameadvance.append(gamestate)
+            print(3)
     return win
 
-if __name__=='__main__':
+
+if __name__ == '__main__':
     width = -1
     height = -1
     required_coin_nb = -1
@@ -254,11 +277,10 @@ if __name__=='__main__':
 
     game_grid = init(width, height)
     game_state = [game_grid, [False, False], 1]
-    game_advance = []
+    game_advance = [game_state]
     win = 0
     while win == 0:
-        game_advance.append(game_state.copy())
-        win = do_game_turn(game_state,required_coin_nb)
+        win = do_game_turn(game_advance, required_coin_nb)
         print(game_advance)
     print("-" * 60)
     affiche(game_state[0])
@@ -268,6 +290,6 @@ if __name__=='__main__':
     else:
         print("Le joueur 2 a gagné !")
     print("-" * 60)
-    for el in game_advance :
+    for el in game_advance:
         affiche(el[0])
-        print(el[1],el[2])
+        print(el[1], el[2])
