@@ -213,7 +213,7 @@ def check_victory(required_coins, grid):
         else:
             score = 0
         return score
-
+"""
 
 width = -1
 height = -1
@@ -256,3 +256,4 @@ if win == -1:
     print("Le joueur 1 a gagné !")
 else:
     print("Le joueur 2 a gagné !")
+"""
