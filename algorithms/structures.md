@@ -13,3 +13,6 @@
 - gamestate[0] : `grid`,
 - gamestate[1] : `perk`,
 - gamestate[2] : `playerTurn` (1 si au tour du joueur humain, 2 si au tour de l'ordinateur).
+
+## gameadvance :
+#### Liste : contient les gamestate correspondant aux coups joués.
