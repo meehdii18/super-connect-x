@@ -1,5 +1,6 @@
 import os
 import tkinter as tk
+import webbrowser as wb
 
 import customtkinter
 import pyglet
@@ -68,6 +69,14 @@ def quit_confirmation():
 
 
 def start_game():
+    try:
+        game_canvas.destroy()
+        for button in buttons:
+            button.destroy()
+        buttons_frame.destroy()
+    except NameError:
+        pass
+
     columns = var_column.get()
     rows = var_row.get()
     required_coins = var_requiredcoins.get()
@@ -78,8 +87,8 @@ def start_game():
 
 
 def display_game_board(canvas, game_board, player1_color, player2_color, cell_size=70, padding=10):
-    canvas.delete("all")
-
+    global buttons
+    global buttons_frame
     for row_idx, row in enumerate(game_board):
         for col_idx, cell in enumerate(row):
             x1 = col_idx * cell_size + 6
@@ -95,32 +104,50 @@ def display_game_board(canvas, game_board, player1_color, player2_color, cell_si
 
     buttons = []
     col = var_column.get()
-    padding = 0
-    for col in range(0, col):
-        padding += 0.068
-        buttons.append(customtkinter.CTkButton(second_frame, width=60, height=20, corner_radius=100, text=str(col + 1),
-                                               hover_color="yellow", command=lambda col=col: button_event(col)))
-        buttons[col].place(relx=0.2 + padding, rely=0.01)
-
-    canvas.update()
+    row = var_row.get()
+    buttons_frame = customtkinter.CTkFrame(second_frame, height=40, width=70 * col)
+    buttons_frame.grid(row=0, column=col)
+    buttons_frame.place(relx=0.5, rely=0.5 - (0.055 * row), anchor="center")
+    for i in range(col):
+        buttons.append(customtkinter.CTkButton(buttons_frame, width=65, height=35, corner_radius=100, text=str(i + 1),
+                                               hover_color=player1_color, command=lambda col=i: button_event(col)))
+        buttons[i].grid(row=0, column=i, padx=(4, 4))
 
 
 def button_event(number):
     print("Button", number)
+    if (number == 0):
+        wb.open_new_tab('https://www.youtube.com/watch?v=Il9nwPlMZm4')
+    elif (number == 1):
+        wb.open_new_tab("https://www.youtube.com/watch?v=xvFZjo5PgG0")
+    elif (number == 2):
+        wb.open_new_tab("https://www.youtube.com/watch?v=BO-pNmfojao")
+    elif (number == 3):
+        wb.open_new_tab("https://www.youtube.com/watch?v=T6jLL7ycJhY")
+    elif (number == 4):
+        wb.open_new_tab("https://www.youtube.com/watch?v=8444Uu-Gdsw")
+    elif (number == 5):
+        wb.open_new_tab("https://www.youtube.com/watch?v=Ap011D65du8")
+    elif (number == 6):
+        wb.open_new_tab("https://www.youtube.com/watch?v=HGeCH5uKlYQ")
+    elif (number == 7):
+        wb.open_new_tab("https://www.youtube.com/watch?v=4qUb7I1O-n0")
 
 
 def initialize_game(columns, rows, required_coins, difficulty, player1_color, player2_color):
+    global game_canvas
+    global game_board
     game_board = init(columns, rows)
-
     game_canvas = customtkinter.CTkCanvas(second_frame, width=columns * 70, height=rows * 70)
     game_canvas.grid(row=0, column=0, sticky="nsew")
-    game_canvas.place(relx=0.5, rely=0.5, anchor="center")
+    game_canvas.place(relx=0.5, rely=0.55, anchor="center")
 
     game_board[0][0] = 1
     game_board[0][1] = 2
     display_game_board(game_canvas, game_board, player1_color, player2_color)
 
-    print("Columns :", columns, " Rows:", rows, " Required coins:", required_coins, " Difficulty:", difficulty,
+    print("| NEW GAME STARTED | Columns :", columns, " Rows:", rows, " Required coins:", required_coins, " Difficulty:",
+          difficulty,
           " Player color:", player1_color, " AI color:", player2_color)
 
 
