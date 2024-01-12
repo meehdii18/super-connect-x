@@ -19,13 +19,13 @@ def affiche(grid):
     print("  |", num_col)
     print("--" + "|" + "-" * ((len(num_col)) * 3 + 1))
     for row in range(board_height):
-        print(board_height - row - 1, "|", end =" ")
+        print(board_height - row - 1, "|", end=" ")
         for col in grid[board_height - row - 1]:
-            if col == 0 :
+            if col == 0:
                 print("\u001b[37m", end="")
-            elif col == 1 :
+            elif col == 1:
                 print("\x1B[38;2;255;0;0m", end="")
-            elif col == 2 :
+            elif col == 2:
                 print("\x1B[38;2;255;255;0m", end="")
             print("██ ", end="")
         print("\u001b[37m")
@@ -62,11 +62,12 @@ def perk(gamestate_not_to_touch, play_column):
     board_height = len(grid)
     player = gamestate[2]
     row = 0
-    while row < board_height and grid[row][play_column] != 0 :
+    while row < board_height and grid[row][play_column] != 0:
         grid[row][play_column] = 0
         row += 1
-    gamestate[1][player-1] = True
+    gamestate[1][player - 1] = True
     return gamestate
+
 
 def add_coin(play_column, player, grid_not_to_touch):
     grid = copy.deepcopy(grid_not_to_touch)
@@ -244,7 +245,7 @@ def check_victory(required_coins, grid):
         return score
 
 
-def do_game_turn(gameadvance, required_coin):
+def do_game_turn(gameadvance, required_coin, play_AI):
     gamestate = copy.deepcopy(gameadvance[-1])
     if __name__ == '__main__':
         print("-" * 60)
@@ -255,57 +256,67 @@ def do_game_turn(gameadvance, required_coin):
     valid_play = False
     board_width = len(gamestate[0][0])
     win = 0
-    while col_to_play < 0 or col_to_play >= board_width or not valid_play:
-        col_to_play = input(
-            "Joueur {0} : Entrer une colonne pour jouer entre 0 et {1} : ".format(gamestate[2],
-                                                                                  board_width - 1))
-        if col_to_play == 'u' :
-            undo(gameadvance)
-            col_to_play = 0
-            valid_play = True
-        elif col_to_play == 'p' :
-            player = gamestate[2]
-            if not gamestate[1][player-1] :
-                print("-" * 60)
-                col_to_play_perk = -1
-                while col_to_play_perk < 0 or col_to_play_perk >= board_width :
-                    col_to_play_perk = int(input(
-                        "Joueur {0} : Entrer une colonne pour votre atout entre 0 et {1},  : ".format(gamestate[2],
-                                                                                              board_width - 1)))
-                gamestate = perk(gamestate,col_to_play_perk)
-                if gamestate[2] == 1:
-                    gamestate[2] = 2
-                else:
-                    gamestate[2] = 1
-                gameadvance.append(gamestate)
+    if play_AI :
+        pass
+    else :
+        while col_to_play < 0 or col_to_play >= board_width or not valid_play:
+            col_to_play = input(
+                "Joueur {0} : Entrer une colonne pour jouer entre 0 et {1} : ".format(gamestate[2],
+                                                                                      board_width - 1))
+            if col_to_play == 'u':
+                undo(gameadvance)
                 col_to_play = 0
                 valid_play = True
-            else :
-                print("Joueur {0} : Vous avez déja utilisé votre atout !".format(gamestate[2]))
-                col_to_play = -1
-        else :
-            try :
-                col_to_play = int(col_to_play)
-                if 0 <= col_to_play < board_width:
-                    valid_play = check_valid_play(col_to_play, gamestate[0])
-                if valid_play:
-                    gamestate[0] = add_coin(col_to_play, gamestate[2], gamestate[0])
+            elif col_to_play == 'p':
+                player = gamestate[2]
+                if not gamestate[1][player - 1]:
+                    print("-" * 60)
+                    col_to_play_perk = -1
+                    while col_to_play_perk < 0 or col_to_play_perk >= board_width:
+                        col_to_play_perk = int(input(
+                            "Joueur {0} : Entrer une colonne pour votre atout entre 0 et {1},  : ".format(gamestate[2],
+                                                                                                          board_width - 1)))
+                    gamestate = perk(gamestate, col_to_play_perk)
                     if gamestate[2] == 1:
                         gamestate[2] = 2
                     else:
                         gamestate[2] = 1
-                win = check_victory(required_coin, gamestate[0])
-                gameadvance.append(gamestate)
-            except ValueError :
-                print("Veuillez rentrer une valeur valide.")
-                col_to_play = -1
+                    gameadvance.append(gamestate)
+                    col_to_play = 0
+                    valid_play = True
+                else:
+                    print("Joueur {0} : Vous avez déja utilisé votre atout !".format(gamestate[2]))
+                    col_to_play = -1
+            else:
+                try:
+                    col_to_play = int(col_to_play)
+                    if 0 <= col_to_play < board_width:
+                        valid_play = check_valid_play(col_to_play, gamestate[0])
+                    if valid_play:
+                        gamestate[0] = add_coin(col_to_play, gamestate[2], gamestate[0])
+                        if gamestate[2] == 1:
+                            gamestate[2] = 2
+                        else:
+                            gamestate[2] = 1
+                    win = check_victory(required_coin, gamestate[0])
+                    gameadvance.append(gamestate)
+                except ValueError:
+                    print("Veuillez rentrer une valeur valide.")
+                    col_to_play = -1
     return win
 
 
 if __name__ == '__main__':
+    select_play_against_AI = ''
     width = -1
     height = -1
     required_coin_nb = -1
+    while select_play_against_AI != 'y' and select_play_against_AI != 'n':
+        select_play_against_AI = input("Voulez vous jouer contre une AI ? [y/n] : ")
+    if select_play_against_AI == 'y':
+        play_against_AI = True
+    else:
+        play_against_AI = False
     while width < 0:
         width = int(input("Entrer une largeur de grille supérieure à  0 : "))
     while height < 0:
@@ -321,7 +332,7 @@ if __name__ == '__main__':
     game_advance = [game_state]
     win = 0
     while win == 0:
-        win = do_game_turn(game_advance, required_coin_nb)
+        win = do_game_turn(game_advance, required_coin_nb,play_against_AI)
     print("-" * 60)
     affiche(game_advance[-1][0])
     print("-" * 60)
