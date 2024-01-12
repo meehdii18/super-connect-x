@@ -55,7 +55,7 @@ def change_appearance_mode_event(new_appearance_mode):
 def launch_confirmation():
     launch = CTkMessagebox(title="Lancer une partie",
                            message="Voulez-vous lancez la partie avec les paramètres séléctionnés ?",
-                           option_1="Non", option_2="Oui", sound=True, corner_radius=20)
+                           option_1="Non", option_2="Oui", sound=False, corner_radius=20)
     if launch.get() == "Oui":
         frame_2_button_event()
         start_game()
@@ -63,7 +63,7 @@ def launch_confirmation():
 
 def quit_confirmation():
     end_game = CTkMessagebox(title="Quitter le jeu", message="Voulez-vous vraiment quitter le jeu ?", icon="warning",
-                             option_1="Oui", option_2="Non", sound=True)
+                             option_1="Oui", option_2="Non", sound=False)
     if end_game.get() == "Oui":
         app.destroy()
 
@@ -116,21 +116,21 @@ def display_game_board(canvas, game_board, player1_color, player2_color, cell_si
 
 def button_event(number):
     print("Button", number)
-    if (number == 0):
+    if number == 0:
         wb.open_new_tab('https://www.youtube.com/watch?v=Il9nwPlMZm4')
-    elif (number == 1):
+    elif number == 1:
         wb.open_new_tab("https://www.youtube.com/watch?v=xvFZjo5PgG0")
-    elif (number == 2):
+    elif number == 2:
         wb.open_new_tab("https://www.youtube.com/watch?v=BO-pNmfojao")
-    elif (number == 3):
+    elif number == 3:
         wb.open_new_tab("https://www.youtube.com/watch?v=T6jLL7ycJhY")
-    elif (number == 4):
+    elif number == 4:
         wb.open_new_tab("https://www.youtube.com/watch?v=8444Uu-Gdsw")
-    elif (number == 5):
+    elif number == 5:
         wb.open_new_tab("https://www.youtube.com/watch?v=Ap011D65du8")
-    elif (number == 6):
+    elif number == 6:
         wb.open_new_tab("https://www.youtube.com/watch?v=HGeCH5uKlYQ")
-    elif (number == 7):
+    elif number == 7:
         wb.open_new_tab("https://www.youtube.com/watch?v=4qUb7I1O-n0")
 
 
@@ -138,7 +138,8 @@ def initialize_game(columns, rows, required_coins, difficulty, player1_color, pl
     global game_canvas
     global game_board
     game_board = init(columns, rows)
-    game_canvas = customtkinter.CTkCanvas(second_frame, width=columns * 70, height=rows * 70)
+    game_canvas = customtkinter.CTkCanvas(second_frame, width=columns * 70, height=rows * 70,
+                                          background="#201c24", borderwidth=0)
     game_canvas.grid(row=0, column=0, sticky="nsew")
     game_canvas.place(relx=0.5, rely=0.55, anchor="center")
 
@@ -149,6 +150,20 @@ def initialize_game(columns, rows, required_coins, difficulty, player1_color, pl
     print("| NEW GAME STARTED | Columns :", columns, " Rows:", rows, " Required coins:", required_coins, " Difficulty:",
           difficulty,
           " Player color:", player1_color, " AI color:", player2_color)
+
+
+def perk1_event():
+    end_game = CTkMessagebox(title="Atout",
+                             message="Supprimer les jetons d'une colonne"
+                                     " voulez vous l'utiliser ?",
+                             icon="warning",
+                             option_1="Oui", option_2="Non", sound=False)
+    if end_game.get() == "Oui":
+        pass
+
+
+def undo_event():
+    pass
 
 
 # Base theme
@@ -186,7 +201,7 @@ navigation_frame_label = customtkinter.CTkLabel(navigation_frame, text="  SUPER 
 navigation_frame_label.grid(row=0, column=0)
 navigation_frame_label.place(relx=0.1, rely=0.5, anchor="center")
 
-home_button = customtkinter.CTkButton(navigation_frame, corner_radius=0, height=40, border_spacing=10, text="MAIN MENU",
+home_button = customtkinter.CTkButton(navigation_frame, corner_radius=0, height=40, border_spacing=10, text="MENU",
                                       fg_color="transparent", text_color=("gray10", "gray90"),
                                       hover_color=("gray70", "gray30"),
                                       font=customtkinter.CTkFont(family="Montserrat", size=15, weight="bold"),
@@ -195,7 +210,7 @@ home_button.grid(row=0, column=1, sticky="ew")
 home_button.place(relx=0.35, rely=0.5, anchor="center")
 
 frame_2_button = customtkinter.CTkButton(navigation_frame, corner_radius=0, height=40, border_spacing=10,
-                                         text="GAME FRAME",
+                                         text="JEU",
                                          fg_color="transparent", text_color=("gray10", "gray90"),
                                          hover_color=("gray70", "gray30"),
                                          font=customtkinter.CTkFont(family="Montserrat", size=15, weight="bold"),
@@ -204,7 +219,7 @@ frame_2_button.grid(row=0, column=2, sticky="ew")
 frame_2_button.place(relx=0.5, rely=0.5, anchor="center")
 
 frame_3_button = customtkinter.CTkButton(navigation_frame, corner_radius=0, height=40, border_spacing=10,
-                                         text="END MENU",
+                                         text="FIN DE PARTIE",
                                          fg_color="transparent", text_color=("gray10", "gray90"),
                                          hover_color=("gray70", "gray30"),
                                          font=customtkinter.CTkFont(family="Montserrat", size=15, weight="bold"),
@@ -233,7 +248,7 @@ var_requiredcoins = tk.IntVar()
 var_difficulty = tk.IntVar()
 
 home_frame_column_text = customtkinter.CTkLabel(home_frame, text="Nombre de colonnes : ", fg_color="transparent",
-                                                font=customtkinter.CTkFont(family="Montserrat", size=20))
+                                                font=customtkinter.CTkFont(family="Montserrat", size=20, weight="bold"))
 home_frame_column_text.grid(row=1, column=0)
 home_frame_column_text.place(relx=0.32, rely=0.298 + 0.03)
 home_frame_column_slider = customtkinter.CTkSlider(home_frame, from_=3, to=8, number_of_steps=5, variable=var_column)
@@ -245,7 +260,7 @@ home_frame_column_val.grid(row=1, column=0)
 home_frame_column_val.place(relx=0.6425, rely=0.25 + 0.03)
 
 home_frame_row_text = customtkinter.CTkLabel(home_frame, text="Nombre de lignes : ", fg_color="transparent",
-                                             font=customtkinter.CTkFont(family="Montserrat", size=20))
+                                             font=customtkinter.CTkFont(family="Montserrat", size=20, weight="bold"))
 home_frame_row_text.grid(row=1, column=0)
 home_frame_row_text.place(relx=0.35, rely=0.398 + 0.03)
 home_frame_row_slider = customtkinter.CTkSlider(home_frame, from_=3, to=8, number_of_steps=5, variable=var_row)
@@ -258,7 +273,7 @@ home_frame_row_val.place(relx=0.6425, rely=0.35 + 0.03)
 
 home_frame_coins_text = customtkinter.CTkLabel(home_frame, text="Nombre de jetons pour gagner : ",
                                                fg_color="transparent",
-                                               font=customtkinter.CTkFont(family="Montserrat", size=20))
+                                               font=customtkinter.CTkFont(family="Montserrat", size=20, weight="bold"))
 home_frame_coins_text.grid(row=1, column=0)
 home_frame_coins_text.place(relx=0.235, rely=0.498 + 0.03)
 
@@ -272,7 +287,7 @@ home_frame_coins_val.grid(row=1, column=0)
 home_frame_coins_val.place(relx=0.6425, rely=0.45 + 0.03)
 
 home_frame_difficulty_text = customtkinter.CTkLabel(home_frame, text="Difficulté de l'IA :", fg_color="transparent",
-                                                    font=customtkinter.CTkFont(family="Montserrat", size=20))
+                                                    font=customtkinter.CTkFont(family="Montserrat", size=20, weight="bold"))
 home_frame_difficulty_text.grid(row=1, column=0)
 home_frame_difficulty_text.place(relx=0.365, rely=0.59 + 0.03)
 
@@ -306,12 +321,12 @@ player2_color_menu.grid(row=1, column=0)
 player2_color_menu.place(relx=0.555, rely=0.75 + 0.03)  # Adjust position as needed
 
 player1_color_menu_text = customtkinter.CTkLabel(home_frame, text="Couleur du joueur :", fg_color="transparent",
-                                                 font=customtkinter.CTkFont(family="Montserrat", size=20))
+                                                 font=customtkinter.CTkFont(family="Montserrat", size=20, weight="bold"))
 player1_color_menu_text.grid(row=1, column=0)
 player1_color_menu_text.place(relx=0.35, rely=0.68 + 0.03)
 
 player2_color_menu_text = customtkinter.CTkLabel(home_frame, text="Couleur de l'ordinateur :", fg_color="transparent",
-                                                 font=customtkinter.CTkFont(family="Montserrat", size=20))
+                                                 font=customtkinter.CTkFont(family="Montserrat", size=20, weight="bold"))
 player2_color_menu_text.grid(row=1, column=0)
 player2_color_menu_text.place(relx=0.305, rely=0.75 + 0.03)
 
@@ -322,6 +337,14 @@ home_frame_start_button.place(relx=0.46, rely=0.86)
 
 # Game Frame
 second_frame = customtkinter.CTkFrame(app, corner_radius=0, fg_color="transparent")
+
+perk1 = customtkinter.CTkButton(second_frame, text="Atout", command=perk1_event, height=50,
+                                font=customtkinter.CTkFont(family="Montserrat", size=25, weight="bold"))
+perk1.place(relx=0.01, rely=0.9)
+
+undo = customtkinter.CTkButton(second_frame, text="Undo", command=undo_event, height=50,
+                               font=customtkinter.CTkFont(family="Montserrat", size=25, weight="bold"))
+undo.place(relx=0.01, rely=0.8)
 
 # End Menu
 third_frame = customtkinter.CTkFrame(app, corner_radius=0, fg_color="transparent")
