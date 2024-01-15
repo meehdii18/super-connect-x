@@ -239,6 +239,21 @@ def check_victory(required_coins, grid):
         return victory
 
 
+def evaluate_grid(grid,required_coins):
+    score = 0
+    player_coin = 1
+    AI_coin = 2
+
+    for coin_check in range(required_coins,1,-1):
+        victory_indicator = check_victory(coin_check,grid)
+        if victory_indicator == 1 :
+            score -= 50/(required_coins-coin_check+1)
+        elif victory_indicator == 2 :
+            score += 100/(required_coins-coin_check+1)
+
+    return score
+
+
 def min_max(gamestate, required_coins, depth, maximizingPlayer):
     grid = gamestate[0]
     board_width = len(grid[0])
@@ -254,18 +269,19 @@ def min_max(gamestate, required_coins, depth, maximizingPlayer):
             else:  # Game is over, no more valid moves
                 return (None, 0)
         else:  # Depth is zero
-            return (None, 0) #score_position(board, AI_PIECE) # à modifier
+            return (None, evaluate_grid(grid,required_coins)) #score_position(board, AI_PIECE) # à modifier
     if maximizingPlayer:
         value = -1000000000000000
         column = rnd.randint(0, board_width)
         for col in range(board_width):
             grid_copy = copy.deepcopy(grid)
-            grid_copy = add_coin(col, 2, grid_copy)
-            new_gamestate = [grid_copy, perk, 2 if gamestate[2] == 1 else 1]
-            new_score = min_max(new_gamestate, required_coins, depth - 1, False)
-            if new_score[1] > value:
-                value = new_score[1]
-                column = col
+            if check_valid_play(col, grid_copy):
+                grid_copy = add_coin(col, 2, grid_copy)
+                new_gamestate = [grid_copy, perk, 2 if gamestate[2] == 1 else 1]
+                new_score = min_max(new_gamestate, required_coins, depth - 1, False)
+                if new_score[1] > value:
+                    value = new_score[1]
+                    column = col
         return column, value
 
     else:  # Minimizing player
@@ -273,12 +289,13 @@ def min_max(gamestate, required_coins, depth, maximizingPlayer):
         column = rnd.randint(0, board_width)
         for col in range(board_width):
             grid_copy = copy.deepcopy(grid)
-            grid_copy = add_coin(col, 1, grid_copy)
-            new_gamestate = [grid_copy, perk, 2 if gamestate[2] == 1 else 1]
-            new_score = min_max(new_gamestate, required_coins, depth - 1, True)
-            if new_score[1] < value:
-                value = new_score[1]
-                column = col
+            if check_valid_play(col, grid_copy):
+                grid_copy = add_coin(col, 1, grid_copy)
+                new_gamestate = [grid_copy, perk, 2 if gamestate[2] == 1 else 1]
+                new_score = min_max(new_gamestate, required_coins, depth - 1, True)
+                if new_score[1] < value:
+                    value = new_score[1]
+                    column = col
         return column, value
 
 
@@ -294,7 +311,7 @@ def do_game_turn(gameadvance, required_coin, play_AI):
     board_width = len(gamestate[0][0])
     win = 0
     if play_AI:
-        AI_depth = 3
+        AI_depth = 5
         if gamestate[2] == 1:
             while col_to_play < 0 or col_to_play >= board_width or not valid_play:
                 col_to_play = input(
