@@ -19,8 +19,8 @@ def affiche(grid):
     print("  |", num_col)
     print("--" + "|" + "-" * ((len(num_col)) * 3 + 1))
     for row in range(board_height):
-        print(board_height - row - 1, "|", end=" ")
-        for col in grid[board_height - row - 1]:
+        print(row, "|", end=" ")
+        for col in grid[row]:
             if col == 0:
                 print("\u001b[37m", end="")
             elif col == 1:
@@ -33,7 +33,7 @@ def affiche(grid):
 
 def check_valid_play(play_column, grid):
     board_height = len(grid)
-    if grid[board_height - 1][play_column] == 0:
+    if grid[0][play_column] == 0:
         return True
     else:
         return False
@@ -62,7 +62,7 @@ def perk(gamestate_not_to_touch, play_column):
     board_height = len(grid)
     player = gamestate[2]
     row = 0
-    while row < board_height and grid[row][play_column] != 0:
+    while row < board_height :
         grid[row][play_column] = 0
         row += 1
     gamestate[1][player - 1] = True
@@ -77,12 +77,12 @@ def add_coin(play_column, player, grid_not_to_touch):
             or board_height < 0
             or play_column > board_width):
         return grid
-    row = 0
+    row = board_height - 1
     actual_coin = grid[row][play_column]
-    while actual_coin and row <= board_height:
+    while actual_coin and row >= 0 :
         actual_coin = grid[row][play_column]
         if actual_coin:
-            row += 1
+            row -= 1
     grid[row][play_column] = player
     return grid
 
@@ -117,7 +117,7 @@ def check_row(required_coins, grid):
         while (col < board_width
                and count < required_coins
                and board_width - col >= required_coins - count):
-            if current == grid[row][col]:
+            if current == grid[row][col] and grid[row][col]:
                 count += 1
             else:
                 count = 1
@@ -144,9 +144,8 @@ def check_col(required_coins, grid):
         count = 0
         while (row < board_height
                and count < required_coins
-               and board_height - row >= required_coins - count
-               and grid[row][col]):
-            if current == grid[row][col]:
+               and board_height - row >= required_coins - count):
+            if current == grid[row][col] and grid[row][col]:
                 count += 1
             else:
                 count = 1
@@ -274,7 +273,7 @@ def do_game_turn(gameadvance, required_coin, play_AI):
                     col_to_play_perk = -1
                     while col_to_play_perk < 0 or col_to_play_perk >= board_width:
                         col_to_play_perk = int(input(
-                            "Joueur {0} : Entrer une colonne pour votre atout entre 0 et {1},  : ".format(gamestate[2],
+                            "Joueur {0} : Entrer une colonne pour votre atout entre 0 et {1} : ".format(gamestate[2],
                                                                                                           board_width - 1)))
                     gamestate = perk(gamestate, col_to_play_perk)
                     if gamestate[2] == 1:
