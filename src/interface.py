@@ -1,13 +1,12 @@
 import os
 import tkinter as tk
-import webbrowser as wb
 
 import customtkinter
 import pyglet
 from CTkMessagebox import CTkMessagebox
 from PIL import Image
 
-from console_connect_x import init
+from console_connect_x import init, add_coin, check_valid_play, check_victory, min_max, perk
 
 app = customtkinter.CTk()
 app.title("SUPER CONNECT X")
@@ -69,10 +68,12 @@ def quit_confirmation():
 
 
 def start_game():
+    global buttons
     try:
         game_canvas.destroy()
         for button in buttons:
             button.destroy()
+        buttons = []
         buttons_frame.destroy()
     except NameError:
         pass
@@ -110,60 +111,166 @@ def display_game_board(canvas, game_board, player1_color, player2_color, cell_si
     buttons_frame.place(relx=0.5, rely=0.5 - (0.055 * row), anchor="center")
     for i in range(col):
         buttons.append(customtkinter.CTkButton(buttons_frame, width=65, height=35, corner_radius=100, text=str(i + 1),
-                                               hover_color=player1_color, command=lambda col=i: button_event(col)))
+                                               hover_color=player1_color,
+                                               command=lambda col=i: button_event(col)))
         buttons[i].grid(row=0, column=i, padx=(4, 4))
 
 
 def button_event(number):
-    print("Button", number)
+    global game_state
     if number == 0:
-        wb.open_new_tab('https://www.youtube.com/watch?v=Il9nwPlMZm4')
+        if check_valid_play(0, game_state[0]):
+            game_state[0] = add_coin(0, 1, game_state[0])
+            if (check_victory(var_requiredcoins.get(), game_state[0]) == 1):
+                win(1)
+            else :
+                ai_col = min_max(game_state,var_requiredcoins.get(),var_difficulty.get(),True)[0]
+                game_state[2] = True
+                game_state[0] = add_coin(ai_col,2,game_state[0])
+                if (check_victory(var_requiredcoins.get(), game_state[0]) == 2):
+                    win(2)
+        else:
+            impossible_move_event()
     elif number == 1:
-        wb.open_new_tab("https://www.youtube.com/watch?v=xvFZjo5PgG0")
+        if check_valid_play(1, game_state[0]):
+            game_state[0] = add_coin(1, 1, game_state[0])
+            if (check_victory(var_requiredcoins.get(), game_state[0]) == 1):
+                win(1)
+            else :
+                ai_col = min_max(game_state,var_requiredcoins.get(),var_difficulty.get(),True)[0]
+                game_state[2] = True
+                game_state[0] = add_coin(ai_col,2,game_state[0])
+                if (check_victory(var_requiredcoins.get(), game_state[0]) == 2):
+                    win(2)
+        else:
+            impossible_move_event()
     elif number == 2:
-        wb.open_new_tab("https://www.youtube.com/watch?v=BO-pNmfojao")
+        if check_valid_play(2, game_state[0]):
+            game_state[0] = add_coin(2, 1, game_state[0])
+            if (check_victory(var_requiredcoins.get(), game_state[0]) == 1):
+                win(1)
+            else :
+                ai_col = min_max(game_state,var_requiredcoins.get(),var_difficulty.get(),True)[0]
+                game_state[2] = True
+                game_state[0] = add_coin(ai_col,2,game_state[0])
+                if (check_victory(var_requiredcoins.get(), game_state[0]) == 2):
+                    win(2)
+        else:
+            impossible_move_event()
     elif number == 3:
-        wb.open_new_tab("https://www.youtube.com/watch?v=T6jLL7ycJhY")
+        if check_valid_play(3, game_state[0]):
+            game_state[0] = add_coin(3, 1, game_state[0])
+            if (check_victory(var_requiredcoins.get(), game_state[0]) == 1):
+                win(1)
+            else :
+                ai_col = min_max(game_state,var_requiredcoins.get(),var_difficulty.get(),True)[0]
+                game_state[2] = True
+                game_state[0] = add_coin(ai_col,2,game_state[0])
+                if (check_victory(var_requiredcoins.get(), game_state[0]) == 2):
+                    win(2)
+        else:
+            impossible_move_event()
     elif number == 4:
-        wb.open_new_tab("https://www.youtube.com/watch?v=8444Uu-Gdsw")
+        if check_valid_play(4, game_state[0]):
+            game_state[0] = add_coin(4, 1, game_state[0])
+            if (check_victory(var_requiredcoins.get(), game_state[0]) == 1):
+                win(1)
+            else :
+                ai_col = min_max(game_state,var_requiredcoins.get(),var_difficulty.get(),True)[0]
+                game_state[2] = True
+                game_state[0] = add_coin(ai_col,2,game_state[0])
+                if (check_victory(var_requiredcoins.get(), game_state[0]) == 2):
+                    win(2)
+        else:
+            impossible_move_event()
     elif number == 5:
-        wb.open_new_tab("https://www.youtube.com/watch?v=Ap011D65du8")
+        if check_valid_play(5, game_state[0]):
+            game_state[0] = add_coin(5, 1, game_state[0])
+            if (check_victory(var_requiredcoins.get(), game_state[0]) == 1):
+                win(1)
+            else :
+                ai_col = min_max(game_state,var_requiredcoins.get(),var_difficulty.get(),True)[0]
+                game_state[2] = True
+                game_state[0] = add_coin(ai_col,2,game_state[0])
+                if (check_victory(var_requiredcoins.get(), game_state[0]) == 2):
+                    win(2)
+        else:
+            impossible_move_event()
     elif number == 6:
-        wb.open_new_tab("https://www.youtube.com/watch?v=HGeCH5uKlYQ")
+        if check_valid_play(6, game_state[0]):
+            game_state[0] = add_coin(6, 1, game_state[0])
+            if (check_victory(var_requiredcoins.get(), game_state[0]) == 1):
+                win(1)
+            else :
+                ai_col = min_max(game_state,var_requiredcoins.get(),var_difficulty.get(),True)[0]
+                game_state[2] = True
+                game_state[0] = add_coin(ai_col,2,game_state[0])
+                if (check_victory(var_requiredcoins.get(), game_state[0]) == 2):
+                    win(2)
+        else:
+            impossible_move_event()
     elif number == 7:
-        wb.open_new_tab("https://www.youtube.com/watch?v=4qUb7I1O-n0")
+        if check_valid_play(7, game_state[0]):
+            game_state[0] = add_coin(7, 1, game_state[0])
+            if (check_victory(var_requiredcoins.get(), game_state[0]) == 1):
+                win(1)
+            else :
+                ai_col = min_max(game_state,var_requiredcoins.get(),var_difficulty.get(),True)[0]
+                game_state[2] = True
+                game_state[0] = add_coin(ai_col,2,game_state[0])
+                if (check_victory(var_requiredcoins.get(), game_state[0]) == 2):
+                    win(2)
+        else:
+            impossible_move_event()
+
+    display_game_board(game_canvas, game_state[0], player1_color.get(), player2_color.get())
 
 
 def initialize_game(columns, rows, required_coins, difficulty, player1_color, player2_color):
     global game_canvas
-    global game_board
+    global game_state
+
     game_board = init(columns, rows)
+    game_state = [game_board, [False, False], 1]
     game_canvas = customtkinter.CTkCanvas(second_frame, width=columns * 70, height=rows * 70,
                                           background="#201c24", borderwidth=0)
     game_canvas.grid(row=0, column=0, sticky="nsew")
     game_canvas.place(relx=0.5, rely=0.55, anchor="center")
 
-    game_board[0][0] = 1
-    game_board[0][1] = 2
-    display_game_board(game_canvas, game_board, player1_color, player2_color)
+    perk1 = customtkinter.CTkButton(second_frame, text="Atout", command=lambda: perk_event(game_state, 2), height=50,
+                                    font=customtkinter.CTkFont(family="Montserrat", size=25, weight="bold"))
+    perk1.place(relx=0.01, rely=0.9)
+
+    undo = customtkinter.CTkButton(second_frame, text="Undo", height=50,
+                                   font=customtkinter.CTkFont(family="Montserrat", size=25, weight="bold"))
+    undo.place(relx=0.01, rely=0.8)
+
+    display_game_board(game_canvas, game_state[0], player1_color, player2_color)
 
     print("| NEW GAME STARTED | Columns :", columns, " Rows:", rows, " Required coins:", required_coins, " Difficulty:",
           difficulty,
           " Player color:", player1_color, " AI color:", player2_color)
 
 
-def perk1_event():
-    end_game = CTkMessagebox(title="Atout",
-                             message="Supprimer les jetons d'une colonne"
-                                     " voulez vous l'utiliser ?",
-                             icon="warning",
-                             option_1="Oui", option_2="Non", sound=False)
-    if end_game.get() == "Oui":
-        pass
+def impossible_move_event():
+    message = CTkMessagebox(title="Jeton impossible à placer",
+                            message="La colonne est remplie, veuillez en choisir une autre pour jouer.",
+                            option_1="Compris", sound=False, corner_radius=20)
 
 
-def undo_event():
-    pass
+def perk_event(game_board, column):
+    game_state = perk(game_board, 1)
+    display_game_board(game_canvas, game_state[0], player1_color.get(), player2_color.get())
+
+
+def win(winner):
+    frame_3_button_event()
+    if winner == 1:
+        winner_text.configure(text="Vous avez gagné !",text_color="green")
+        winner_text.place(relx=0.465, rely=0.7)
+    if winner == 2:
+        winner_text.configure(text="Vous avez perdu, l'IA à gagné !",text_color="red")
+        winner_text.place(relx=0.434, rely=0.7)
 
 
 # Base theme
@@ -277,7 +384,7 @@ home_frame_coins_text = customtkinter.CTkLabel(home_frame, text="Nombre de jeton
 home_frame_coins_text.grid(row=1, column=0)
 home_frame_coins_text.place(relx=0.235, rely=0.498 + 0.03)
 
-home_frame_coins_slider = customtkinter.CTkSlider(home_frame, from_=3, to=10,
+home_frame_coins_slider = customtkinter.CTkSlider(home_frame, from_=3, to=8,
                                                   number_of_steps=8, variable=var_requiredcoins)
 home_frame_coins_slider.grid(row=1, column=0)
 home_frame_coins_slider.place(relx=0.55, rely=0.5 + 0.03)
@@ -287,7 +394,8 @@ home_frame_coins_val.grid(row=1, column=0)
 home_frame_coins_val.place(relx=0.6425, rely=0.45 + 0.03)
 
 home_frame_difficulty_text = customtkinter.CTkLabel(home_frame, text="Difficulté de l'IA :", fg_color="transparent",
-                                                    font=customtkinter.CTkFont(family="Montserrat", size=20, weight="bold"))
+                                                    font=customtkinter.CTkFont(family="Montserrat", size=20,
+                                                                               weight="bold"))
 home_frame_difficulty_text.grid(row=1, column=0)
 home_frame_difficulty_text.place(relx=0.365, rely=0.59 + 0.03)
 
@@ -321,12 +429,14 @@ player2_color_menu.grid(row=1, column=0)
 player2_color_menu.place(relx=0.555, rely=0.75 + 0.03)  # Adjust position as needed
 
 player1_color_menu_text = customtkinter.CTkLabel(home_frame, text="Couleur du joueur :", fg_color="transparent",
-                                                 font=customtkinter.CTkFont(family="Montserrat", size=20, weight="bold"))
+                                                 font=customtkinter.CTkFont(family="Montserrat", size=20,
+                                                                            weight="bold"))
 player1_color_menu_text.grid(row=1, column=0)
 player1_color_menu_text.place(relx=0.35, rely=0.68 + 0.03)
 
 player2_color_menu_text = customtkinter.CTkLabel(home_frame, text="Couleur de l'ordinateur :", fg_color="transparent",
-                                                 font=customtkinter.CTkFont(family="Montserrat", size=20, weight="bold"))
+                                                 font=customtkinter.CTkFont(family="Montserrat", size=20,
+                                                                            weight="bold"))
 player2_color_menu_text.grid(row=1, column=0)
 player2_color_menu_text.place(relx=0.305, rely=0.75 + 0.03)
 
@@ -338,14 +448,6 @@ home_frame_start_button.place(relx=0.46, rely=0.86)
 # Game Frame
 second_frame = customtkinter.CTkFrame(app, corner_radius=0, fg_color="transparent")
 
-perk1 = customtkinter.CTkButton(second_frame, text="Atout", command=perk1_event, height=50,
-                                font=customtkinter.CTkFont(family="Montserrat", size=25, weight="bold"))
-perk1.place(relx=0.01, rely=0.9)
-
-undo = customtkinter.CTkButton(second_frame, text="Undo", command=undo_event, height=50,
-                               font=customtkinter.CTkFont(family="Montserrat", size=25, weight="bold"))
-undo.place(relx=0.01, rely=0.8)
-
 # End Menu
 third_frame = customtkinter.CTkFrame(app, corner_radius=0, fg_color="transparent")
 
@@ -356,7 +458,6 @@ game_over_label.place(relx=0.25, rely=0.1)
 winner_text = customtkinter.CTkLabel(third_frame, text="X à gagné !", fg_color="transparent",
                                      font=customtkinter.CTkFont(family="Montserrat", size=20))
 winner_text.grid(row=1, column=0)
-winner_text.place(relx=0.495, rely=0.7)
 
 exit_button = customtkinter.CTkButton(third_frame, text="Quitter le jeu", height=50, width=200,
                                       font=customtkinter.CTkFont(family="Montserrat", size=20, weight="bold"),
