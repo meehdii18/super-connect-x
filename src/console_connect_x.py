@@ -1,4 +1,5 @@
 import copy
+import random as rnd
 
 
 def init(board_width, board_height):
@@ -39,11 +40,11 @@ def check_valid_play(play_column, grid):
         return False
 
 
-def check_full_grid(grid, perk1, perk2):
+def check_full_grid(grid, perk):
     board_width = len(grid[0])
     column = 0
     full = False
-    if perk1 and perk2:
+    if perk[0] and perk[1]:
         full = True
         while column <= board_width and full:
             if check_valid_play(column, grid):
@@ -235,15 +236,58 @@ def check_victory(required_coins, grid):
                    ^ check_row(required_coins, grid)
                    ^ check_up_diag(required_coins, grid)
                    ^ check_down_diag(required_coins, grid))
-        if victory == 1:
-            score = -1
-        elif victory == 2:
-            score = 1
-        else:
-            score = 0
-        return score
+        return victory
+"""
+def min_max(gamestate, required_coins, depth, maximizingPlayer):
+    valid_locations = get_valid_locations(board)
+    grid = gamestate[0]
+    board_width = len(grid[0])
+    perk = gamestate[1]
+    full_board = check_full_grid(grid, perk)
+    if depth == 0 or full_board:
+        if full_board:
+            final_position_victory = check_victory(required_coins, grid)
+            if final_position_victory == 1:
+                return (None, 1000000000)
+            elif final_position_victory == 2:
+                return (None, -100000000)
+            else:  # Game is over, no more valid moves
+                return (None, 0)
+        else:  # Depth is zero
+            return (None, score_position(board, AI_PIECE))
+    if maximizingPlayer:
+        value = -1000000000000000
+        column = rnd.int(board_width)
+        for col in range(board_width):
+            grid_copy = copy.deepcopy(grid)
+            grid_copy = add_coin(col,2,grid_copy)
+            new_gamestate = [grid_copy,perk,
+                             ]
+            new_score = min_max(b_copy, depth - 1, alpha, beta, False)[1]
+            if new_score > value:
+                value = new_score
+                column = col
+            alpha = max(alpha, value)
+            if alpha >= beta:
+                break
+        return column, value
 
-
+    else:  # Minimizing player
+        value = math.inf
+        column = random.choice(valid_locations)
+        for col in valid_locations:
+            row = get_next_open_row(board, col)
+            b_copy = board.copy()
+            drop_piece(b_copy, row, col, PLAYER_PIECE)
+            new_score = minimax(b_copy, depth - 1, alpha, beta, True)[1]
+            if new_score < value:
+                value = new_score
+                column = col
+            beta = min(beta, value)
+            if alpha >= beta:
+                break
+        return column, value
+"""
 def do_game_turn(gameadvance, required_coin, play_AI):
     gamestate = copy.deepcopy(gameadvance[-1])
     if __name__ == '__main__':
@@ -335,7 +379,7 @@ if __name__ == '__main__':
     print("-" * 60)
     affiche(game_advance[-1][0])
     print("-" * 60)
-    if win == -1:
+    if win == 1:
         print("Le joueur 1 a gagné !")
     else:
         print("Le joueur 2 a gagné !")
