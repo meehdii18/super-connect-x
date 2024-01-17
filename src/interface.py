@@ -1,10 +1,11 @@
 import os
+
 import customtkinter
 import pyglet
 from CTkMessagebox import CTkMessagebox
 from PIL import Image
 
-from console_connect_x import init, add_coin, check_valid_play, check_victory, min_max, perk
+from console_connect_x import init, add_coin, check_valid_play, check_victory, min_max, perk, undo
 
 app = customtkinter.CTk()
 app.title("SUPER CONNECT X")
@@ -116,87 +117,105 @@ def display_game_board(canvas, game_board, player1_color, player2_color, cell_si
 
 def button_event(number):
     global game_state
+    global game_advance
+    global undo_button
+
+    undo_button.configure(state="enabled")
     if number == 0:
         if check_valid_play(0, game_state[0]):
             game_state[0] = add_coin(0, 1, game_state[0])
+            game_advance.append(game_state)
             if (check_victory(var_requiredcoins.get(), game_state[0]) == 1):
                 win(1)
             else:
                 ai_col = min_max(game_state, var_requiredcoins.get(), var_difficulty.get(), True)[0]
                 game_state[2] = True
                 game_state[0] = add_coin(ai_col, 2, game_state[0])
-                if (check_victory(var_requiredcoins.get(), game_state[0]) == 2):
-                    win(2)
+                game_advance.append(game_state)
+            if (check_victory(var_requiredcoins.get(), game_state[0]) == 2):
+                win(2)
         else:
             impossible_move_event()
     elif number == 1:
         if check_valid_play(1, game_state[0]):
             game_state[0] = add_coin(1, 1, game_state[0])
+            game_advance.append(game_state)
             if (check_victory(var_requiredcoins.get(), game_state[0]) == 1):
                 win(1)
             else:
                 ai_col = min_max(game_state, var_requiredcoins.get(), var_difficulty.get(), True)[0]
                 game_state[2] = True
                 game_state[0] = add_coin(ai_col, 2, game_state[0])
-                if (check_victory(var_requiredcoins.get(), game_state[0]) == 2):
-                    win(2)
+                game_advance.append(game_state)
+            if (check_victory(var_requiredcoins.get(), game_state[0]) == 2):
+                win(2)
         else:
             impossible_move_event()
     elif number == 2:
         if check_valid_play(2, game_state[0]):
             game_state[0] = add_coin(2, 1, game_state[0])
+            game_advance.append(game_state)
             if (check_victory(var_requiredcoins.get(), game_state[0]) == 1):
                 win(1)
             else:
                 ai_col = min_max(game_state, var_requiredcoins.get(), var_difficulty.get(), True)[0]
                 game_state[2] = True
                 game_state[0] = add_coin(ai_col, 2, game_state[0])
-                if (check_victory(var_requiredcoins.get(), game_state[0]) == 2):
-                    win(2)
+                game_advance.append(game_state)
+            if (check_victory(var_requiredcoins.get(), game_state[0]) == 2):
+                win(2)
         else:
             impossible_move_event()
     elif number == 3:
         if check_valid_play(3, game_state[0]):
             game_state[0] = add_coin(3, 1, game_state[0])
+            game_advance.append(game_state)
             if (check_victory(var_requiredcoins.get(), game_state[0]) == 1):
                 win(1)
             else:
                 ai_col = min_max(game_state, var_requiredcoins.get(), var_difficulty.get(), True)[0]
                 game_state[2] = True
                 game_state[0] = add_coin(ai_col, 2, game_state[0])
-                if (check_victory(var_requiredcoins.get(), game_state[0]) == 2):
-                    win(2)
+                game_advance.append(game_state)
+            if (check_victory(var_requiredcoins.get(), game_state[0]) == 2):
+                win(2)
         else:
             impossible_move_event()
     elif number == 4:
         if check_valid_play(4, game_state[0]):
             game_state[0] = add_coin(4, 1, game_state[0])
+            game_advance.append(game_state)
             if (check_victory(var_requiredcoins.get(), game_state[0]) == 1):
                 win(1)
             else:
                 ai_col = min_max(game_state, var_requiredcoins.get(), var_difficulty.get(), True)[0]
                 game_state[2] = True
                 game_state[0] = add_coin(ai_col, 2, game_state[0])
-                if (check_victory(var_requiredcoins.get(), game_state[0]) == 2):
-                    win(2)
+                game_advance.append(game_state)
+            if (check_victory(var_requiredcoins.get(), game_state[0]) == 2):
+                win(2)
         else:
             impossible_move_event()
     elif number == 5:
         if check_valid_play(5, game_state[0]):
             game_state[0] = add_coin(5, 1, game_state[0])
+            game_advance.append(game_state)
             if (check_victory(var_requiredcoins.get(), game_state[0]) == 1):
                 win(1)
             else:
                 ai_col = min_max(game_state, var_requiredcoins.get(), var_difficulty.get(), True)[0]
                 game_state[2] = True
                 game_state[0] = add_coin(ai_col, 2, game_state[0])
-                if (check_victory(var_requiredcoins.get(), game_state[0]) == 2):
-                    win(2)
+                game_advance.append(game_state)
+            if (check_victory(var_requiredcoins.get(), game_state[0]) == 2):
+                win(2)
         else:
             impossible_move_event()
+
     elif number == 6:
         if check_valid_play(6, game_state[0]):
             game_state[0] = add_coin(6, 1, game_state[0])
+            game_advance.append(game_state)
             if (check_victory(var_requiredcoins.get(), game_state[0]) == 1):
                 win(1)
             else:
@@ -207,19 +226,22 @@ def button_event(number):
                     win(2)
         else:
             impossible_move_event()
+
     elif number == 7:
-        if check_valid_play(7, game_state[0]):
-            game_state[0] = add_coin(7, 1, game_state[0])
-            if (check_victory(var_requiredcoins.get(), game_state[0]) == 1):
-                win(1)
+            if check_valid_play(7, game_state[0]):
+                game_state[0] = add_coin(7, 1, game_state[0])
+                game_advance.append(game_state)
+                if (check_victory(var_requiredcoins.get(), game_state[0]) == 1):
+                    win(1)
+                else:
+                    ai_col = min_max(game_state, var_requiredcoins.get(), var_difficulty.get(), True)[0]
+                    game_state[2] = True
+                    game_state[0] = add_coin(ai_col, 2, game_state[0])
+                    game_advance.append(game_state)
+                    if (check_victory(var_requiredcoins.get(), game_state[0]) == 2):
+                        win(2)
             else:
-                ai_col = min_max(game_state, var_requiredcoins.get(), var_difficulty.get(), True)[0]
-                game_state[2] = True
-                game_state[0] = add_coin(ai_col, 2, game_state[0])
-                if (check_victory(var_requiredcoins.get(), game_state[0]) == 2):
-                    win(2)
-        else:
-            impossible_move_event()
+                impossible_move_event()
 
     display_game_board(game_canvas, game_state[0], player1_color.get(), player2_color.get())
 
@@ -227,38 +249,46 @@ def button_event(number):
 def initialize_game(columns, rows, required_coins, difficulty, player1_color, player2_color):
     global game_canvas
     global game_state
+    global game_advance
+    global undo_button
 
     game_board = init(columns, rows)
     game_state = [game_board, [False, False], 1]
+    game_advance = [game_state]
     game_canvas = customtkinter.CTkCanvas(second_frame, width=columns * 70, height=rows * 70,
                                           background="#201c24", borderwidth=0)
     game_canvas.grid(row=0, column=0, sticky="nsew")
     game_canvas.place(relx=0.5, rely=0.55, anchor="center")
 
     var_perk_row = customtkinter.IntVar()
-    perk_slider = customtkinter.CTkSlider(second_frame,from_=1,to=8,number_of_steps=8,variable=var_perk_row)
+    perk_slider = customtkinter.CTkSlider(second_frame, from_=1, to=8, number_of_steps=8, variable=var_perk_row)
     perk_slider.set(4)
-    perk_slider.place(relx=0.01,rely=0.85)
-    perk_slider_text = customtkinter.CTkLabel(second_frame,textvariable=var_perk_row,fg_color="transparent")
-    perk_slider_text.place(relx=0.1,rely=0.8)
+    perk_slider.place(relx=0.01, rely=0.85)
+    perk_slider_text = customtkinter.CTkLabel(second_frame, textvariable=var_perk_row, fg_color="transparent")
+    perk_slider_text.place(relx=0.1, rely=0.8)
 
     perk_button = customtkinter.CTkButton(second_frame, text="Atout",
-                                    command=lambda: perk_button_event(game_state,var_perk_row,perk_button), height=50,
-                                    font=customtkinter.CTkFont(family="Montserrat", size=25, weight="bold"))
+                                          command=lambda: perk_button_event(game_state, var_perk_row, perk_button),
+                                          height=50,
+                                          font=customtkinter.CTkFont(family="Montserrat", size=25, weight="bold"))
     perk_button.place(relx=0.04, rely=0.9)
 
-
-
-
-    undo = customtkinter.CTkButton(second_frame, text="Undo", height=50,
+    undo_button = customtkinter.CTkButton(second_frame, text="Undo", height=50, command = undo_event, state="disabled",
                                    font=customtkinter.CTkFont(family="Montserrat", size=25, weight="bold"))
-    undo.place(relx=0.85, rely=0.9)
+    undo_button.place(relx=0.85, rely=0.9)
 
     display_game_board(game_canvas, game_state[0], player1_color, player2_color)
 
     print("| NEW GAME STARTED | Columns :", columns, " Rows:", rows, " Required coins:", required_coins, " Difficulty:",
           difficulty,
           " Player color:", player1_color, " AI color:", player2_color)
+
+def undo_event():
+    global game_advance
+    undo(game_advance)
+    print(game_advance)
+    display_game_board(game_canvas,game_advance[-1][0],player1_color.get(),player2_color.get())
+
 
 
 def impossible_move_event():
@@ -267,22 +297,20 @@ def impossible_move_event():
                             option_1="Compris", sound=False, corner_radius=20)
 
 
-
-
-def perk_button_event(game_board,var,button):
+def perk_button_event(game_board, var, button):
     perk_msg = CTkMessagebox(title="Utiliser l'atout",
-                           message="L'atout va supprimer la colonne sélectionnée, attention il ne peut être utilisé"
-                                   "qu'une seule fois par partie",
-                           option_1="Non", option_2="Oui", sound=False, corner_radius=20)
+                             message="L'atout va supprimer la colonne sélectionnée, attention il ne peut être utilisé"
+                                     "qu'une seule fois par partie",
+                             option_1="Non", option_2="Oui", sound=False, corner_radius=20)
     if perk_msg.get() == "Oui":
-        game_state = perk(game_board, var.get()-1)
+        game_state = perk(game_board, var.get() - 1)
         display_game_board(game_canvas, game_state[0], player1_color.get(), player2_color.get())
         button.configure(state="disabled")
-        print("L'atout a été utilisé sur la colonne :",var.get())
-
+        print("L'atout a été utilisé sur la colonne :", var.get())
 
 
 def win(winner):
+    global game_advance
     frame_3_button_event()
     if winner == 1:
         winner_text.configure(text="Vous avez gagné !", text_color="green")
