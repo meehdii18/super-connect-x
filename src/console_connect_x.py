@@ -1,5 +1,6 @@
 import copy
 import random as rnd
+import time
 
 
 def init(board_width, board_height):
@@ -54,7 +55,13 @@ def check_full_grid(grid, perk):
 
 
 def undo(gameadvance):
-    gameadvance.pop(-1)
+    if len(gameadvance) >= 2:
+        gameadvance.pop(-1)
+
+
+def undo_AI(gameadvance):
+    for _undo in range(2):
+        undo(gameadvance)
 
 
 def perk(gamestate_not_to_touch, play_column):
@@ -104,84 +111,74 @@ def remove_coin(column, grid):
     return grid
 
 
-def check_row(required_coins, grid):
+def check_row(required_coins, grid, player):
     board_width = len(grid[0])
     board_height = len(grid)
     row = 0
     count = 0
-    current = 0
     while (row < board_height
            and count < required_coins):
-        current = grid[row][0]
         col = 0
         count = 0
         while (col < board_width
                and count < required_coins
                and board_width - col >= required_coins - count):
-            if current == grid[row][col] and grid[row][col]:
+            if grid[row][col] == player:
                 count += 1
             else:
-                count = 1
-            current = grid[row][col]
+                count = 0
             col += 1
         row += 1
     if count == required_coins:
-        winner = current
+        winner = player
     else:
         winner = 0
     return winner
 
 
-def check_col(required_coins, grid):
+def check_col(required_coins, grid, player):
     board_width = len(grid[0])
     board_height = len(grid)
     col = 0
     count = 0
-    current = 0
     while (col < board_width
            and count < required_coins):
-        current = grid[0][col]
         row = 0
         count = 0
         while (row < board_height
                and count < required_coins
                and board_height - row >= required_coins - count):
-            if current == grid[row][col] and grid[row][col]:
+            if grid[row][col] == player:
                 count += 1
             else:
-                count = 1
-            current = grid[row][col]
+                count = 0
             row += 1
         col += 1
     if count == required_coins:
-        winner = current
+        winner = player
     else:
         winner = 0
     return winner
 
 
-def check_down_diag(required_coins, grid):
+def check_up_diag(required_coins, grid, player):
     board_width = len(grid[0])
     board_height = len(grid)
     row_start = required_coins - 1
     col_start = 0
     count = 0
-    current = 0
     while (col_start <= board_width - required_coins
            and count < required_coins):
         row = row_start
         col = col_start
-        current = grid[row][col]
         count = 0
         while (col < board_width
                and row >= 0
-               and count < required_coins
-               and min(board_width - col, row + 1) >= required_coins - count):
-            if current == grid[row][col] and grid[row][col]:
+               and count < required_coins):
+            if grid[row][col] == player:
                 count += 1
             else:
-                count = 1
-            current = grid[row][col]
+                count = 0
             row -= 1
             col += 1
         if row_start == board_height - 1:
@@ -189,34 +186,30 @@ def check_down_diag(required_coins, grid):
         else:
             row_start += 1
     if count == required_coins:
-        winner = current
+        winner = player
     else:
         winner = 0
     return winner
 
 
-def check_up_diag(required_coins, grid):
+def check_down_diag(required_coins, grid, player):
     board_width = len(grid[0])
     board_height = len(grid)
     row_start = board_height - required_coins
     col_start = 0
     count = 0
-    current = 0
     while (col_start <= board_width - required_coins
            and count < required_coins):
         row = row_start
         col = col_start
-        current = grid[row][col]
         count = 0
         while (col < board_width
                and row < board_height
-               and count < required_coins
-               and min(board_width - col, board_height - row) >= required_coins - count):
-            if current == grid[row][col] and grid[row][col]:
+               and count < required_coins):
+            if grid[row][col] == player:
                 count += 1
             else:
-                count = 1
-            current = grid[row][col]
+                count = 0
             row += 1
             col += 1
         if row_start == 0:
@@ -224,33 +217,35 @@ def check_up_diag(required_coins, grid):
         else:
             row_start -= 1
     if count == required_coins:
-        winner = current
+        winner = player
     else:
         winner = 0
     return winner
 
 
 def check_victory(required_coins, grid):
-    if required_coins > 0:
-        victory = (check_col(required_coins, grid)
-                   ^ check_row(required_coins, grid)
-                   ^ check_up_diag(required_coins, grid)
-                   ^ check_down_diag(required_coins, grid))
-        return victory
+    victory = 0
+    for player in (1, 2):
+        victory ^= (check_col(required_coins, grid, player)
+                   ^ check_row(required_coins, grid, player)
+                   ^ check_up_diag(required_coins, grid, player)
+                   ^ check_down_diag(required_coins, grid, player))
+    return victory
 
 
-def evaluate_grid(grid,required_coins):
+def evaluate_grid(grid, required_coins):
     score = 0
-    player_coin = 1
-    AI_coin = 2
-
-    for coin_check in range(required_coins,1,-1):
-        victory_indicator = check_victory(coin_check,grid)
-        if victory_indicator == 1 :
-            score -= 50/(required_coins-coin_check+1)
-        elif victory_indicator == 2 :
-            score += 100/(required_coins-coin_check+1)
-
+    weight = [[100, 5, 2], [-4, 0, 0]]
+    for player in (1, 2):
+        for distance_to_win in range(3):
+            victory_indicator_row = check_row(required_coins - distance_to_win, grid, player)
+            victory_indicator_col = check_col(required_coins - distance_to_win, grid, player)
+            victory_indicator_diag_up = check_up_diag(required_coins - distance_to_win, grid, player)
+            victory_indicator_diag_down = check_down_diag(required_coins - distance_to_win, grid, player)
+            for victory_indicator in [victory_indicator_row, victory_indicator_col, victory_indicator_diag_up,
+                                      victory_indicator_diag_down]:
+                if victory_indicator == player:
+                    score += weight[player - 1][distance_to_win]
     return score
 
 
@@ -259,43 +254,51 @@ def min_max(gamestate, required_coins, depth, maximizingPlayer):
     board_width = len(grid[0])
     perk = gamestate[1]
     full_board = check_full_grid(grid, perk)
-    if depth == 0 or full_board:
-        if full_board:
-            final_position_victory = check_victory(required_coins, grid)
-            if final_position_victory == 1:
+    final_position_victory = check_victory(required_coins, grid)
+    if depth == 0 or full_board or final_position_victory:
+        if depth != 0:
+            if final_position_victory == 2:
                 return (None, 1000000000)
-            elif final_position_victory == 2:
+            elif final_position_victory == 1:
                 return (None, -100000000)
             else:  # Game is over, no more valid moves
                 return (None, 0)
-        else:  # Depth is zero
-            return (None, evaluate_grid(grid,required_coins)) #score_position(board, AI_PIECE) # à modifier
+        else:
+            return (None,evaluate_grid(grid,required_coins))
     if maximizingPlayer:
-        value = -1000000000000000
-        column = rnd.randint(0, board_width)
+        value = -10000000
+        playable = [col for col in range(board_width) if check_valid_play(col, grid)]
+        column = playable[0]
+        best_play_list = [column]
         for col in range(board_width):
             grid_copy = copy.deepcopy(grid)
-            if check_valid_play(col, grid_copy):
-                grid_copy = add_coin(col, 2, grid_copy)
-                new_gamestate = [grid_copy, perk, 2 if gamestate[2] == 1 else 1]
-                new_score = min_max(new_gamestate, required_coins, depth - 1, False)
-                if new_score[1] > value:
-                    value = new_score[1]
-                    column = col
+            grid_copy = add_coin(col, 2, grid_copy)
+            new_gamestate = [grid_copy, perk, 1]
+            new_score = min_max(new_gamestate, required_coins, depth - 1, False)
+            if new_score[1] > value:
+                value = new_score[1]
+                best_play_list = [col]
+            elif new_score[1] == value:
+                best_play_list.append(col)
+            column = rnd.choice(best_play_list)
         return column, value
 
     else:  # Minimizing player
-        value = 1000000000000000
-        column = rnd.randint(0, board_width)
+        value = 10000000
+        playable = [col for col in range(board_width) if check_valid_play(col, grid)]
+        column = playable[0]
+        best_play_list = [column]
         for col in range(board_width):
             grid_copy = copy.deepcopy(grid)
-            if check_valid_play(col, grid_copy):
-                grid_copy = add_coin(col, 1, grid_copy)
-                new_gamestate = [grid_copy, perk, 2 if gamestate[2] == 1 else 1]
-                new_score = min_max(new_gamestate, required_coins, depth - 1, True)
-                if new_score[1] < value:
-                    value = new_score[1]
-                    column = col
+            grid_copy = add_coin(col, 1, grid_copy)
+            new_gamestate = [grid_copy, perk, 2]
+            new_score = min_max(new_gamestate, required_coins, depth - 1, True)
+            if new_score[1] < value:
+                value = new_score[1]
+                best_play_list = [col]
+            elif new_score[1] == value:
+                best_play_list.append(col)
+            column = rnd.choice(best_play_list)
         return column, value
 
 
@@ -318,7 +321,7 @@ def do_game_turn(gameadvance, required_coin, play_AI):
                     "Entrer une colonne pour jouer entre 0 et {1} : ".format(gamestate[2],
                                                                              board_width - 1))
                 if col_to_play == 'u':
-                    undo(gameadvance)
+                    undo_AI(gameadvance)
                     col_to_play = 0
                     valid_play = True
                 elif col_to_play == 'p':
@@ -355,9 +358,12 @@ def do_game_turn(gameadvance, required_coin, play_AI):
                         print("Veuillez rentrer une valeur valide.")
                         col_to_play = -1
         else:
-            col_AI_play = min_max(gamestate, required_coin, AI_depth, True)[0]
+            value = min_max(gamestate, required_coin, AI_depth, True)
+            print(value)
+            col_AI_play = value[0]
             gamestate[0] = add_coin(col_AI_play, 2, gamestate[0])
             gamestate[2] = 1
+            win = check_victory(required_coin, gamestate[0])
             gameadvance.append(gamestate)
     else:
         while col_to_play < 0 or col_to_play >= board_width or not valid_play:
