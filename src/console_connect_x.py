@@ -47,7 +47,7 @@ def check_full_grid(grid, perk):
     full = False
     if perk[0] and perk[1]:
         full = True
-        while column <= board_width and full:
+        while column < board_width and full:
             if check_valid_play(column, grid):
                 full = False
             column += 1
@@ -64,7 +64,7 @@ def undo_AI(gameadvance):
         undo(gameadvance)
 
 
-def perk(gamestate_not_to_touch, play_column):
+def use_perk(gamestate_not_to_touch, play_column):
     gamestate = copy.deepcopy(gamestate_not_to_touch)
     grid = gamestate[0]
     board_height = len(grid)
@@ -227,9 +227,9 @@ def check_victory(required_coins, grid):
     victory = 0
     for player in (1, 2):
         victory ^= (check_col(required_coins, grid, player)
-                   ^ check_row(required_coins, grid, player)
-                   ^ check_up_diag(required_coins, grid, player)
-                   ^ check_down_diag(required_coins, grid, player))
+                    ^ check_row(required_coins, grid, player)
+                    ^ check_up_diag(required_coins, grid, player)
+                    ^ check_down_diag(required_coins, grid, player))
     return victory
 
 
@@ -265,38 +265,66 @@ def min_max(gamestate, required_coins, depth, maximizingPlayer):
             else:  # Game is over, no more valid moves
                 return (None, 0)
         else:
-            return (None,evaluate_grid(grid,required_coins))
+            return (None, evaluate_grid(grid, required_coins))
+
+    playable = [col for col in range(board_width) if check_valid_play(col, grid)]
     if maximizingPlayer:
         value = -10000000
-        playable = [col for col in range(board_width) if check_valid_play(col, grid)]
+        if not perk[1]:
+            playable.append("perk")
         best_play_list = [rnd.choice(playable)]
         for col in playable:
-            grid_copy = copy.deepcopy(grid)
-            grid_copy = add_coin(col, 2, grid_copy)
-            new_gamestate = [grid_copy, perk, 1]
-            new_score = min_max(new_gamestate, required_coins, depth - 1, False)
-            if new_score[1] > value:
-                value = new_score[1]
-                best_play_list = [col]
-            elif new_score[1] == value:
-                best_play_list.append(col)
+            if col == "perk":
+                for col_perk in range(board_width):
+                    new_gamestate = copy.deepcopy(gamestate)
+                    new_gamestate = use_perk(new_gamestate, col_perk)
+                    new_gamestate[2] = 1
+                    new_score = min_max(new_gamestate, required_coins, depth - 1, False)
+                    if new_score[1] > value:
+                        value = new_score[1]
+                        best_play_list = [(col, col_perk)]
+                    elif new_score[1] == value:
+                        best_play_list.append((col, col_perk))
+            else:
+                grid_copy = copy.deepcopy(grid)
+                grid_copy = add_coin(col, 2, grid_copy)
+                new_gamestate = [grid_copy, perk, 1]
+                new_score = min_max(new_gamestate, required_coins, depth - 1, False)
+                if new_score[1] > value:
+                    value = new_score[1]
+                    best_play_list = [col]
+                elif new_score[1] == value:
+                    best_play_list.append(col)
             column = rnd.choice(best_play_list)
         return column, value
 
     else:  # Minimizing player
         value = 10000000
-        playable = [col for col in range(board_width) if check_valid_play(col, grid)]
+        if not perk[0]:
+            playable.append("perk")
         best_play_list = [rnd.choice(playable)]
         for col in playable:
-            grid_copy = copy.deepcopy(grid)
-            grid_copy = add_coin(col, 1, grid_copy)
-            new_gamestate = [grid_copy, perk, 2]
-            new_score = min_max(new_gamestate, required_coins, depth - 1, True)
-            if new_score[1] < value:
-                value = new_score[1]
-                best_play_list = [col]
-            elif new_score[1] == value:
-                best_play_list.append(col)
+            if col == "perk":
+                for col_perk in range(board_width):
+                    new_gamestate = copy.deepcopy(gamestate)
+                    new_gamestate = use_perk(new_gamestate, col_perk)
+                    new_gamestate[2] = 2
+                    new_score = min_max(new_gamestate, required_coins, depth - 1, True)
+                    if new_score[1] < value:
+                        value = new_score[1]
+                        best_play_list = [col]
+                    elif new_score[1] == value:
+                        best_play_list.append(col)
+            else :
+                grid_copy = copy.deepcopy(grid)
+                grid_copy = add_coin(col, 1, grid_copy)
+                new_gamestate = [grid_copy, perk, 2]
+                new_score = min_max(new_gamestate, required_coins, depth - 1, True)
+                if new_score[1] < value:
+                    value = new_score[1]
+                    best_play_list = [col]
+                elif new_score[1] == value:
+                    best_play_list.append(col)
             column = rnd.choice(best_play_list)
         return column, value
 
@@ -332,7 +360,7 @@ def do_game_turn(gameadvance, required_coin, play_AI):
                             col_to_play_perk = int(input(
                                 "Entrer une colonne pour votre atout entre 0 et {1} : ".format(gamestate[2],
                                                                                                board_width - 1)))
-                        gamestate = perk(gamestate, col_to_play_perk)
+                        gamestate = use_perk(gamestate, col_to_play_perk)
                         if gamestate[2] == 1:
                             gamestate[2] = 2
                         else:
@@ -360,7 +388,12 @@ def do_game_turn(gameadvance, required_coin, play_AI):
             value = min_max(gamestate, required_coin, AI_depth, True)
             print(value)
             col_AI_play = value[0]
-            gamestate[0] = add_coin(col_AI_play, 2, gamestate[0])
+            print(gamestate[1])
+            if type(col_AI_play) == tuple:
+                col_AI_play = col_AI_play[1]
+                gamestate = use_perk(gamestate,col_AI_play)
+            else:
+                gamestate[0] = add_coin(col_AI_play, 2, gamestate[0])
             gamestate[2] = 1
             win = check_victory(required_coin, gamestate[0])
             gameadvance.append(gamestate)
@@ -382,7 +415,7 @@ def do_game_turn(gameadvance, required_coin, play_AI):
                         col_to_play_perk = int(input(
                             "Joueur {0} : Entrer une colonne pour votre atout entre 0 et {1} : ".format(gamestate[2],
                                                                                                         board_width - 1)))
-                    gamestate = perk(gamestate, col_to_play_perk)
+                    gamestate = use_perk(gamestate, col_to_play_perk)
                     if gamestate[2] == 1:
                         gamestate[2] = 2
                     else:
@@ -418,12 +451,12 @@ if __name__ == '__main__':
     height = -1
     required_coin_nb = -1
 
-    grid = [[1,0,2,0,1,1,0],
-            [2,2,1,1,2,2,1],
-            [1,1,2,2,1,1,2],
-            [2,2,1,1,2,2,1],
-            [1,1,2,2,1,1,2],
-            [2,2,1,1,2,2,1]]
+    grid = [[1, 0, 2, 0, 1, 1, 0],
+            [2, 2, 1, 1, 2, 2, 1],
+            [1, 1, 2, 2, 1, 1, 2],
+            [2, 2, 1, 1, 2, 2, 1],
+            [1, 1, 2, 2, 1, 1, 2],
+            [2, 2, 1, 1, 2, 2, 1]]
     print([col for col in range(len(grid[0])) if check_valid_play(col, grid)])
 
     while select_play_against_AI != 'y' and select_play_against_AI != 'n':
@@ -443,12 +476,12 @@ if __name__ == '__main__':
                 max_required_coin)))
 
     game_grid = init(width, height)
-    game_grid = [[1,0,2,0,1,1,0],
-            [2,2,1,1,2,2,1],
-            [1,1,2,2,1,1,2],
-            [2,2,1,1,2,2,1],
-            [1,1,2,2,1,1,2],
-            [2,2,1,1,2,2,1]]
+    game_grid = [[1, 0, 2, 0, 1, 1, 0],
+                 [2, 2, 1, 1, 2, 2, 1],
+                 [1, 1, 2, 2, 1, 1, 2],
+                 [2, 2, 1, 1, 2, 2, 1],
+                 [1, 1, 2, 2, 1, 1, 2],
+                 [2, 2, 1, 1, 2, 2, 1]]
     game_state = [game_grid, [False, False], 1]
     game_advance = [game_state]
     win = 0

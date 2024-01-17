@@ -5,7 +5,7 @@ import pyglet
 from CTkMessagebox import CTkMessagebox
 from PIL import Image
 
-from console_connect_x import init, add_coin, check_valid_play, check_victory, min_max, perk, undo
+from console_connect_x import init, add_coin, check_valid_play, check_victory, min_max, use_perk, undo
 
 app = customtkinter.CTk()
 app.title("SUPER CONNECT X")
@@ -303,7 +303,7 @@ def perk_button_event(game_board, var, button):
                                      "qu'une seule fois par partie",
                              option_1="Non", option_2="Oui", sound=False, corner_radius=20)
     if perk_msg.get() == "Oui":
-        game_state = perk(game_board, var.get() - 1)
+        game_state = use_perk(game_board, var.get() - 1)
         display_game_board(game_canvas, game_state[0], player1_color.get(), player2_color.get())
         button.configure(state="disabled")
         print("L'atout a été utilisé sur la colonne :", var.get())
