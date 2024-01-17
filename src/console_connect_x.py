@@ -254,6 +254,7 @@ def min_max(gamestate, required_coins, depth, maximizingPlayer):
     board_width = len(grid[0])
     perk = gamestate[1]
     full_board = check_full_grid(grid, perk)
+    print("full board found")
     final_position_victory = check_victory(required_coins, grid)
     if depth == 0 or full_board or final_position_victory:
         if depth != 0:
@@ -268,9 +269,8 @@ def min_max(gamestate, required_coins, depth, maximizingPlayer):
     if maximizingPlayer:
         value = -10000000
         playable = [col for col in range(board_width) if check_valid_play(col, grid)]
-        column = playable[0]
-        best_play_list = [column]
-        for col in range(board_width):
+        best_play_list = [rnd.choice(playable)]
+        for col in playable:
             grid_copy = copy.deepcopy(grid)
             grid_copy = add_coin(col, 2, grid_copy)
             new_gamestate = [grid_copy, perk, 1]
@@ -286,9 +286,8 @@ def min_max(gamestate, required_coins, depth, maximizingPlayer):
     else:  # Minimizing player
         value = 10000000
         playable = [col for col in range(board_width) if check_valid_play(col, grid)]
-        column = playable[0]
-        best_play_list = [column]
-        for col in range(board_width):
+        best_play_list = [rnd.choice(playable)]
+        for col in playable:
             grid_copy = copy.deepcopy(grid)
             grid_copy = add_coin(col, 1, grid_copy)
             new_gamestate = [grid_copy, perk, 2]
@@ -418,6 +417,15 @@ if __name__ == '__main__':
     width = -1
     height = -1
     required_coin_nb = -1
+
+    grid = [[1,0,2,0,1,1,0],
+            [2,2,1,1,2,2,1],
+            [1,1,2,2,1,1,2],
+            [2,2,1,1,2,2,1],
+            [1,1,2,2,1,1,2],
+            [2,2,1,1,2,2,1]]
+    print([col for col in range(len(grid[0])) if check_valid_play(col, grid)])
+
     while select_play_against_AI != 'y' and select_play_against_AI != 'n':
         select_play_against_AI = input("Voulez vous jouer contre une AI ? [y/n] : ")
     if select_play_against_AI == 'y':
@@ -435,6 +443,12 @@ if __name__ == '__main__':
                 max_required_coin)))
 
     game_grid = init(width, height)
+    game_grid = [[1,0,2,0,1,1,0],
+            [2,2,1,1,2,2,1],
+            [1,1,2,2,1,1,2],
+            [2,2,1,1,2,2,1],
+            [1,1,2,2,1,1,2],
+            [2,2,1,1,2,2,1]]
     game_state = [game_grid, [False, False], 1]
     game_advance = [game_state]
     win = 0
