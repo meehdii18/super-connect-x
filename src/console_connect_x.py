@@ -235,7 +235,7 @@ def check_victory(required_coins, grid):
 
 def evaluate_grid(grid, required_coins):
     score = 0
-    weight = [[100, 5, 2], [-4, 0, 0]]
+    weight = [[100, 5, 2], [-4, -1, 0]]
     for player in (1, 2):
         for distance_to_win in range(3):
             victory_indicator_row = check_row(required_coins - distance_to_win, grid, player)
@@ -252,6 +252,7 @@ def evaluate_grid(grid, required_coins):
 def min_max(gamestate, required_coins, depth, maximizingPlayer):
     grid = gamestate[0]
     board_width = len(grid[0])
+    board_height = len(grid)
     perk = gamestate[1]
     full_board = check_full_grid(grid, perk)
     final_position_victory = check_victory(required_coins, grid)
@@ -275,15 +276,16 @@ def min_max(gamestate, required_coins, depth, maximizingPlayer):
         for col in playable:
             if col == "perk":
                 for col_perk in range(board_width):
-                    new_gamestate = copy.deepcopy(gamestate)
-                    new_gamestate = use_perk(new_gamestate, col_perk)
-                    new_gamestate[2] = 1
-                    new_score = min_max(new_gamestate, required_coins, depth - 1, False)
-                    if new_score[1] > value:
-                        value = new_score[1]
-                        best_play_list = [(col, col_perk)]
-                    elif new_score[1] == value:
-                        best_play_list.append((col, col_perk))
+                    if gamestate[0][board_height-1][col_perk] != 0:
+                        new_gamestate = copy.deepcopy(gamestate)
+                        new_gamestate = use_perk(new_gamestate, col_perk)
+                        new_gamestate[2] = 1
+                        new_score = min_max(new_gamestate, required_coins, depth - 1, False)
+                        if new_score[1] > value:
+                            value = new_score[1]
+                            best_play_list = [(col, col_perk)]
+                        elif new_score[1] == value:
+                            best_play_list.append((col, col_perk))
             else:
                 grid_copy = copy.deepcopy(grid)
                 grid_copy = add_coin(col, 2, grid_copy)
@@ -294,7 +296,7 @@ def min_max(gamestate, required_coins, depth, maximizingPlayer):
                     best_play_list = [col]
                 elif new_score[1] == value:
                     best_play_list.append(col)
-            column = rnd.choice(best_play_list)
+        column = rnd.choice(best_play_list)
         return column, value
 
     else:  # Minimizing player
@@ -305,15 +307,16 @@ def min_max(gamestate, required_coins, depth, maximizingPlayer):
         for col in playable:
             if col == "perk":
                 for col_perk in range(board_width):
-                    new_gamestate = copy.deepcopy(gamestate)
-                    new_gamestate = use_perk(new_gamestate, col_perk)
-                    new_gamestate[2] = 2
-                    new_score = min_max(new_gamestate, required_coins, depth - 1, True)
-                    if new_score[1] < value:
-                        value = new_score[1]
-                        best_play_list = [col]
-                    elif new_score[1] == value:
-                        best_play_list.append(col)
+                    if gamestate[0][board_height-1][col_perk] != 0:
+                        new_gamestate = copy.deepcopy(gamestate)
+                        new_gamestate = use_perk(new_gamestate, col_perk)
+                        new_gamestate[2] = 2
+                        new_score = min_max(new_gamestate, required_coins, depth - 1, True)
+                        if new_score[1] < value:
+                            value = new_score[1]
+                            best_play_list = [col]
+                        elif new_score[1] == value:
+                            best_play_list.append(col)
             else :
                 grid_copy = copy.deepcopy(grid)
                 grid_copy = add_coin(col, 1, grid_copy)
@@ -324,7 +327,7 @@ def min_max(gamestate, required_coins, depth, maximizingPlayer):
                     best_play_list = [col]
                 elif new_score[1] == value:
                     best_play_list.append(col)
-            column = rnd.choice(best_play_list)
+        column = rnd.choice(best_play_list)
         return column, value
 
 
@@ -385,11 +388,13 @@ def do_game_turn(gameadvance, required_coin, play_AI):
                         col_to_play = -1
         else:
             value = min_max(gamestate, required_coin, AI_depth, True)
+            print(value)
             col_AI_play = value[0]
             print(gamestate[1])
             if type(col_AI_play) == tuple:
                 col_AI_play = col_AI_play[1]
                 gamestate = use_perk(gamestate,col_AI_play)
+                print("Atout utilisé par l'ordinateur sur la colonne {0} !".format(col_AI_play))
             else:
                 gamestate[0] = add_coin(col_AI_play, 2, gamestate[0])
             gamestate[2] = 1
