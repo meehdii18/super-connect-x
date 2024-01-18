@@ -448,15 +448,6 @@ if __name__ == '__main__':
     width = -1
     height = -1
     required_coin_nb = -1
-
-    grid = [[1, 0, 2, 0, 1, 1, 0],
-            [2, 2, 1, 1, 2, 2, 1],
-            [1, 1, 2, 2, 1, 1, 2],
-            [2, 2, 1, 1, 2, 2, 1],
-            [1, 1, 2, 2, 1, 1, 2],
-            [2, 2, 1, 1, 2, 2, 1]]
-    print([col for col in range(len(grid[0])) if check_valid_play(col, grid)])
-
     while select_play_against_AI != 'y' and select_play_against_AI != 'n':
         select_play_against_AI = input("Voulez vous jouer contre une AI ? [y/n] : ")
     if select_play_against_AI == 'y':
@@ -474,12 +465,6 @@ if __name__ == '__main__':
                 max_required_coin)))
 
     game_grid = init(width, height)
-    game_grid = [[1, 0, 2, 0, 1, 1, 0],
-                 [2, 2, 1, 1, 2, 2, 1],
-                 [1, 1, 2, 2, 1, 1, 2],
-                 [2, 2, 1, 1, 2, 2, 1],
-                 [1, 1, 2, 2, 1, 1, 2],
-                 [2, 2, 1, 1, 2, 2, 1]]
     game_state = [game_grid, [False, False], 1]
     game_advance = [game_state]
     win = 0
