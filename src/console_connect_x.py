@@ -254,7 +254,6 @@ def min_max(gamestate, required_coins, depth, maximizingPlayer):
     board_width = len(grid[0])
     perk = gamestate[1]
     full_board = check_full_grid(grid, perk)
-    print("full board found")
     final_position_victory = check_victory(required_coins, grid)
     if depth == 0 or full_board or final_position_victory:
         if depth != 0:
@@ -386,7 +385,6 @@ def do_game_turn(gameadvance, required_coin, play_AI):
                         col_to_play = -1
         else:
             value = min_max(gamestate, required_coin, AI_depth, True)
-            print(value)
             col_AI_play = value[0]
             print(gamestate[1])
             if type(col_AI_play) == tuple:
@@ -485,13 +483,15 @@ if __name__ == '__main__':
     game_state = [game_grid, [False, False], 1]
     game_advance = [game_state]
     win = 0
-    while win == 0:
+    while win == 0 and not check_full_grid(game_advance[-1][0],game_advance[-1][1]):
         win = do_game_turn(game_advance, required_coin_nb, play_against_AI)
     print("-" * 60)
     affiche(game_advance[-1][0])
     print("-" * 60)
     if win == 1:
         print("Le joueur 1 a gagné !")
-    else:
+    elif win == 2:
         print("Le joueur 2 a gagné !")
+    else:
+        print("Partie finie, égalité !")
     print("-" * 60)
