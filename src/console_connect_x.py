@@ -64,15 +64,14 @@ def undo_AI(gameadvance):
         undo(gameadvance)
 
 
-def use_perk(gamestate_not_to_touch, play_column):
+def use_perk(gamestate_not_to_touch):
     gamestate = copy.deepcopy(gamestate_not_to_touch)
     grid = gamestate[0]
+    board_width = len(grid[0])
     board_height = len(grid)
     player = gamestate[2]
-    row = 0
-    while row < board_height:
-        grid[row][play_column] = 0
-        row += 1
+    grid.pop(board_height - 1)
+    grid.insert(0, [0 for _width in range(board_width)])
     gamestate[1][player - 1] = True
     return gamestate
 
@@ -275,17 +274,15 @@ def min_max(gamestate, required_coins, depth, maximizingPlayer):
         best_play_list = [rnd.choice(playable)]
         for col in playable:
             if col == "perk":
-                for col_perk in range(board_width):
-                    if gamestate[0][board_height-1][col_perk] != 0:
-                        new_gamestate = copy.deepcopy(gamestate)
-                        new_gamestate = use_perk(new_gamestate, col_perk)
-                        new_gamestate[2] = 1
-                        new_score = min_max(new_gamestate, required_coins, depth - 1, False)
-                        if new_score[1] > value:
-                            value = new_score[1]
-                            best_play_list = [(col, col_perk)]
-                        elif new_score[1] == value:
-                            best_play_list.append((col, col_perk))
+                new_gamestate = copy.deepcopy(gamestate)
+                new_gamestate = use_perk(new_gamestate)
+                new_gamestate[2] = 1
+                new_score = min_max(new_gamestate, required_coins, depth - 1, False)
+                if new_score[1] > value:
+                    value = new_score[1]
+                    best_play_list = [col]
+                elif new_score[1] == value:
+                    best_play_list.append(col)
             else:
                 grid_copy = copy.deepcopy(grid)
                 grid_copy = add_coin(col, 2, grid_copy)
@@ -306,18 +303,16 @@ def min_max(gamestate, required_coins, depth, maximizingPlayer):
         best_play_list = [rnd.choice(playable)]
         for col in playable:
             if col == "perk":
-                for col_perk in range(board_width):
-                    if gamestate[0][board_height-1][col_perk] != 0:
-                        new_gamestate = copy.deepcopy(gamestate)
-                        new_gamestate = use_perk(new_gamestate, col_perk)
-                        new_gamestate[2] = 2
-                        new_score = min_max(new_gamestate, required_coins, depth - 1, True)
-                        if new_score[1] < value:
-                            value = new_score[1]
-                            best_play_list = [col]
-                        elif new_score[1] == value:
-                            best_play_list.append(col)
-            else :
+                new_gamestate = copy.deepcopy(gamestate)
+                new_gamestate = use_perk(new_gamestate)
+                new_gamestate[2] = 2
+                new_score = min_max(new_gamestate, required_coins, depth - 1, True)
+                if new_score[1] < value:
+                    value = new_score[1]
+                    best_play_list = [col]
+                elif new_score[1] == value:
+                    best_play_list.append(col)
+            else:
                 grid_copy = copy.deepcopy(grid)
                 grid_copy = add_coin(col, 1, grid_copy)
                 new_gamestate = [grid_copy, perk, 2]
@@ -357,16 +352,9 @@ def do_game_turn(gameadvance, required_coin, play_AI):
                     player = gamestate[2]
                     if not gamestate[1][player - 1]:
                         print("-" * 60)
-                        col_to_play_perk = -1
-                        while col_to_play_perk < 0 or col_to_play_perk >= board_width:
-                            col_to_play_perk = int(input(
-                                "Entrer une colonne pour votre atout entre 0 et {1} : ".format(gamestate[2],
-                                                                                               board_width - 1)))
-                        gamestate = use_perk(gamestate, col_to_play_perk)
-                        if gamestate[2] == 1:
-                            gamestate[2] = 2
-                        else:
-                            gamestate[2] = 1
+                        print("Vous avez utilisé votre atout !")
+                        gamestate = use_perk(gamestate)
+                        gamestate[2] = 2
                         gameadvance.append(gamestate)
                         col_to_play = 0
                         valid_play = True
@@ -391,10 +379,9 @@ def do_game_turn(gameadvance, required_coin, play_AI):
             print(value)
             col_AI_play = value[0]
             print(gamestate[1])
-            if type(col_AI_play) == tuple:
-                col_AI_play = col_AI_play[1]
-                gamestate = use_perk(gamestate,col_AI_play)
-                print("Atout utilisé par l'ordinateur sur la colonne {0} !".format(col_AI_play))
+            if col_AI_play == "perk":
+                gamestate = use_perk(gamestate)
+                print("Atout utilisé par l'ordinateur !")
             else:
                 gamestate[0] = add_coin(col_AI_play, 2, gamestate[0])
             gamestate[2] = 1
@@ -413,12 +400,8 @@ def do_game_turn(gameadvance, required_coin, play_AI):
                 player = gamestate[2]
                 if not gamestate[1][player - 1]:
                     print("-" * 60)
-                    col_to_play_perk = -1
-                    while col_to_play_perk < 0 or col_to_play_perk >= board_width:
-                        col_to_play_perk = int(input(
-                            "Joueur {0} : Entrer une colonne pour votre atout entre 0 et {1} : ".format(gamestate[2],
-                                                                                                        board_width - 1)))
-                    gamestate = use_perk(gamestate, col_to_play_perk)
+                    print("Joueur {0} : vous avez utilisé votre atout !".format(player))
+                    gamestate = use_perk(gamestate)
                     if gamestate[2] == 1:
                         gamestate[2] = 2
                     else:
@@ -473,7 +456,7 @@ if __name__ == '__main__':
     game_state = [game_grid, [False, False], 1]
     game_advance = [game_state]
     win = 0
-    while win == 0 and not check_full_grid(game_advance[-1][0],game_advance[-1][1]):
+    while win == 0 and not check_full_grid(game_advance[-1][0], game_advance[-1][1]):
         win = do_game_turn(game_advance, required_coin_nb, play_against_AI)
     print("-" * 60)
     affiche(game_advance[-1][0])
