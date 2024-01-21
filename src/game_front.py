@@ -1,11 +1,10 @@
 import os
-
 import customtkinter
 import pyglet
 from CTkMessagebox import CTkMessagebox
 from PIL import Image
 
-from console_connect_x import init, add_coin, check_valid_play, check_victory, min_max, use_perk, undo, check_full_grid
+from game_console import init, add_coin, check_valid_play, check_victory, min_max, use_perk, undo, check_full_grid
 
 # Initialize the application
 app = customtkinter.CTk()
