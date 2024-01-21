@@ -4,8 +4,7 @@
 - Entier : `boardWidth`
 - Entier : `boardHeight`
 - Tableau[`boardWidth`, `boardHeight`] : `grid`
-- Booléen : `perk1`
-- Booléen : `perk2`
+- Tableau[2] : `perk`
 
 ### Pré-conditions :
 - `boardHeight` > 0
@@ -15,7 +14,7 @@
 - Booléen : `full`
 
 ### Post-conditions :
-- Vrai si la grille est complète et que les atout ont tous été utilisés
+- Vrai si la grille est complète et que tous les joueurs ont utilisé leur atout
 - Faux si la grille est incomplète ou que les atouts n'ont pas tous été utilisés
 
 ### Variables
@@ -25,9 +24,9 @@
 #### Début
 	col <- 0
   	full <- Faux
-  	Si perk1 ET perk2 alors :
+  	Si perk[0] ET perk[1] alors :
         full <- Vrai
-        TantQue col <= boardWidth ET full faire :
+        TantQue col < boardWidth ET full faire :
             Si checkValidPlay(boardWidth, boardHeight, col, grid) alors :
                 full <- Faux
 			FinSi

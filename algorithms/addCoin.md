@@ -24,12 +24,12 @@
 - Entier : `actualCoin`,`row`
 
 #### Début
-	row <- 0
+	row <- board_height - 1
 	actualCoin <- grid[row,playColumn]
-	TantQue actualCoin !=0 ET row <= boardHeight faire :
+	TantQue actualCoin !=0 ET row >= 0 faire :
 		actualCoin <- grid[row,playColumn]
 		Si actualCoin != 0 alors :
-			row <- row + 1
+			row <- row - 1
 		FinSi
 	FinTantQue
 	grid[row,playColumn] <- player

@@ -23,7 +23,7 @@
 
 #### Début
 
-	Si grid[boardHeight-1,playColumn] = 0 alors :
+	Si grid[0,playColumn] = 0 alors :
 		valide <- Vrai
 	Sinon
 		valide <- Faux

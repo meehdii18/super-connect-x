@@ -5,6 +5,7 @@
 - Entier : `requiredCoins`,
 - Entier : `boardWidth`,
 - Entier : `boardHeight`,
+- Entier : `player`
 - Tableau[`boardWidth`, `boardHeight`] : `grid`
 
 ### Pré-conditions :
@@ -26,24 +27,21 @@
 #### Début
 	row <- 0
     count <- 0
-    current <- 0
 	TantQue row < boardHeight ET count < requiredCoins faire :
-		current <- grid[row,0]
 		col <- 0
 		count <- 0
 		TantQue col < boardWidth ET count < requiredCoins ET boardWidth-col >= requiredCoins-count faire :
-			Si current = grid[row,col] alors :
+			Si grid[row,col] = player alors :
 				count <- count + 1
 			Sinon:
-				count <- 1
+				count <- 0
 			FinSi
-			current <- grid[row,col]
 			col <- col + 1	
 		FinTantQue
 		row <- row + 1
 	FinTantQue
 	Si count = requiredCoins alors :
-		winner <- current
+		winner <- player
 	Sinon
 		winner <- 0
 	FinSi

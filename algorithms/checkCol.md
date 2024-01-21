@@ -1,9 +1,10 @@
 ## Fonction checkCol
 
 ### Entrées :
-- Entier : `requiredCoins`,
 - Entier : `boardWidth`,
 - Entier : `boardHeight`,
+- Entier : `requiredCoins`,
+- Entier : `player`
 - Tableau[`boardWidth`, `boardHeight`] : `grid`
 
 ### Pré-conditions :
@@ -25,24 +26,21 @@
 #### Début
 	col <- 0
     count <- 0
-    current <-0
 	TantQue col < boardWidth ET count< requiredCoins faire :
-		current <- grid[0,col]
 		row <- 0
 		count <- 0
-		TantQue row < boardHeight ET count < requiredCoins ET boardHeight-row >= requiredCoins-count ET grid[row,col]!=0 faire :
-			Si current = grid[row,col] alors :
+		TantQue row < boardHeight ET count < requiredCoins ET boardHeight-row >= requiredCoins-count faire :
+			Si grid[row,col] = player alors :
 				count <- count + 1
 			Sinon:
-				count <- 1
+				count <- 0
 			FinSi
-			current <- grid[row,col]
 			row <- row + 1	
 		FinTantQue
 		col <- col + 1
 	FinTantQue
 	Si count = requiredCoins alors :
-		winner <- current
+		winner <- player
 	Sinon
 		winner <- 0
 	FinSi

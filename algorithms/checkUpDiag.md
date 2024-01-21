@@ -1,9 +1,10 @@
 ## Fonction checkUpDiag
 
 ### Entrées :
-- Entier : `requiredCoins`,
 - Entier : `boardWidth`,
 - Entier : `boardHeight`,
+- Entier : `requiredCoins`,
+- Entier : `player`
 - Tableau[`boardWidth`, `boardHeight`] : `grid`
 
 ### Pré-conditions :
@@ -23,33 +24,30 @@
 - Entier : `rowStart`, `colStart`, `row`, `col`, `count`, `winner`
 
 #### Début
-    rowStart <- boardHeight - requiredCoins + 1
+    rowStart <- requiredCoins - 1
     colStart <- 0
     count <- 0
-    current <- 0
     TantQue colStart <= boardWidth - requiredCoins ET count < requiredCoins faire :
         row <- rowStart
         col <- colStart
-        current <- grid[row,col]
         count <- 0
-        TantQue col < boardWidth ET row < boardHeight ET count < requiredCoins ET min(boardWidth-col,boardHeight-row) >= requiredCoins-count faire :
-            Si current = grid[row,col] ET grid[row,col] != 0 alors :
+        TantQue col < boardWidth ET row >= 0 ET count < requiredCoins faire :
+            Si grid[row,col] = player alors :
                 count <- count + 1
             Sinon:
-                count <- 1
+                count <- 0
             FinSi
-            current <- grid[row,col]
-            row <- row + 1
+            row <- row - 1
             col <- col + 1
         FinTantQue
-        Si rowStart = 0 alors :
+        Si rowStart = boardHeight - 1 alors :
             colStart <- colStart + 1
         Sinon
-            rowStart <- rowStart - 1
+            rowStart <- rowStart + 1
         FinSi
     FinTantQue
     Si count = requiredCoins alors :
-        winner <- current
+        winner <- player
     Sinon
         winner <- 0
     FinSi

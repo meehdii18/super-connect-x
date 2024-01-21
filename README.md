@@ -37,7 +37,6 @@ The game state is represented as follows:</br>
 - [`checkfullgrid(activegamestate)`](./algorithms/checkFullGrid.md): Checks if the grid is full and all the perks have been used
 - [`perk(activegamestate)`](./algorithms/perk): Do perk action
 - [`minmax(grid,depth,maximazingPlayerturn)`](./algorithms/minmax.md): MinMax algorithm
-- [`removeCoin(col,boardWidth,boardHeight,grid)`](./algorithms/removeCoin.md): Removes a coin from the grid
 - [`checkValidPlay(boardWidth,boardHeight,playColumn,grid)`](./algorithms/checkValidPlay.md): Checks if a moove is possible
 
   
