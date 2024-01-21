@@ -1,5 +1,8 @@
 # Super Connect X Game
 
+## Problèmes
+Notre atout est fonctionnel sur le projet console, mais il créait des gros problèmes une fois intégré à l'interface graphique, nous avons donc décidé de l'enlever de l'interface afin d'avoir un jeu fonctionnel sur celle-ci. Vous pouvez tout de même jouer avec l'atout en lançant console_connect_x.py. 
+
 ## Game State
 The game state is represented as follows:</br>
 
